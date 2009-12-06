@@ -1,10 +1,15 @@
 package SessionBeans;
 
+import java.util.Date;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import EntityBeans.Emploee;
+import EntityBeans.MachRez;
 import EntityBeans.Machine;
+import EntityBeans.Rezerwation;
 
 /**
  * Session Bean implementation class TestSessionBean
@@ -35,6 +40,24 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	m.setPassword("hihi");
     	m.setProcessor("Intel Core 2 Duo Secundo");
     	em.persist(m);
+    	
+    	Emploee e=new Emploee();
+    	e.setDepartment("Woskowy");
+    	e.setEmail("e.mai.com");
+    	e.setFirstName("Ala");
+    	e.setLastName("Kot");
+    	e.setManager("Olchawski");
+    	e.setPhone(123456);
+    	em.persist(e);
+    	
+    	MachRez mr=new MachRez();
+    	mr.setMachID(1);
+    	mr.setRezID(1);
+    	em.persist(mr);
+    	
     	System.out.println("JEA2");
     }
+
+    
+    
 }
