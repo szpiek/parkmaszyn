@@ -1,11 +1,15 @@
 package SessionBeans;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
+import EntityBeans.Rezerwation;
 
 /**
  * Session Bean implementation class TestSessionBean
@@ -46,6 +50,12 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	e.setPhone(123456);
     	em.persist(e);
     	
+    	Rezerwation rez=new Rezerwation();
+    	rez.setEmploee(e);
+    	Collection<Machine> coll=new ArrayList<Machine>();
+    	coll.add(m);
+    	rez.setMachine(coll);
+    	em.persist(rez);
     	System.out.println("JEA2");
     }
 
