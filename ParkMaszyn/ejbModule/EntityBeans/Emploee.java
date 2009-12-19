@@ -1,9 +1,15 @@
 package EntityBeans;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +20,16 @@ public class Emploee {
 	private String lastName;
 	private String email;
 	private String department;
+	Collection<Rezerwation> rezerwation;
 	
+	@OneToMany(cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	@JoinColumn(name="empRezID")
+	public Collection<Rezerwation> getRezerwation() {
+		return rezerwation;
+	}
+	public void setRezerwation(Collection<Rezerwation> rezerwation) {
+		this.rezerwation = rezerwation;
+	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer getID() {

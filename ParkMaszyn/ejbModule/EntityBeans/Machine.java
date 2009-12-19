@@ -1,9 +1,13 @@
 package EntityBeans;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +23,17 @@ public class Machine {
 	private Integer memory;
 	private Integer bits;
 	private Integer ID;
+	Collection<Rezerwation> rezerwation;
+	
 	public String getOs() {
 		return os;
+	}
+	@ManyToMany(fetch=FetchType.LAZY)
+	public Collection<Rezerwation> getRezerwation() {
+		return rezerwation;
+	}
+	public void setRezerwation(Collection<Rezerwation> rezerwation) {
+		this.rezerwation = rezerwation;
 	}
 	public void setOs(String os) {
 		this.os = os;

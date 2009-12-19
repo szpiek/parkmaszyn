@@ -5,7 +5,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import EntityBeans.Emploee;
-import EntityBeans.MachRez;
 import EntityBeans.Machine;
 
 /**
@@ -46,11 +45,6 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	e.setManager("Olchawski");
     	e.setPhone(123456);
     	em.persist(e);
-    	
-    	MachRez mr=new MachRez();
-    	mr.setMachID(1);
-    	mr.setRezID(1);
-    	em.persist(mr);
     	
     	System.out.println("JEA2");
     }
