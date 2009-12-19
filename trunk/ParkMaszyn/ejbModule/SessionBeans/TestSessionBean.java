@@ -1,7 +1,5 @@
 package SessionBeans;
 
-import java.util.Date;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +7,6 @@ import javax.persistence.PersistenceContext;
 import EntityBeans.Emploee;
 import EntityBeans.MachRez;
 import EntityBeans.Machine;
-import EntityBeans.Rezerwation;
 
 /**
  * Session Bean implementation class TestSessionBean
