@@ -35,7 +35,7 @@ public class Rezerwation {
 		this.machine = machine;
 	}
 	@ManyToOne(cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-	@JoinColumn(name="RezEmpID")
+	@JoinColumn(name="emploeeID")
 	public Emploee getEmploee() {
 		return emploee;
 	}
