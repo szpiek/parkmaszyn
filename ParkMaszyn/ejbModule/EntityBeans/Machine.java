@@ -1,16 +1,22 @@
 package EntityBeans;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
-@Entity
+import net.bzdyl.ejb3.criteria.Criteria;
+import net.bzdyl.ejb3.criteria.CriteriaFactory;
+import net.bzdyl.ejb3.criteria.restrictions.Restrictions;
+
+@Entity(name="Machine")
 @Table(name="Machine")
 public class Machine {
 	
@@ -24,12 +30,24 @@ public class Machine {
 	private Integer bits;
 	private Integer ID;
 	Collection<Rezerwation> rezerwation;
+
 	
 	public String getOs() {
 		return os;
 	}
-	@ManyToMany(fetch=FetchType.LAZY)
+	
+	@ManyToMany(
+        targetEntity=Rezerwation.class,
+        fetch=FetchType.LAZY,
+        cascade={}
+    )
+    @JoinTable(
+        name="MACHINE_REZERWATION",
+        joinColumns=@JoinColumn(name="MACH_ID"),
+        inverseJoinColumns=@JoinColumn(name="REZ_ID")
+    )
 	public Collection<Rezerwation> getRezerwation() {
+		if(rezerwation==null) rezerwation=new ArrayList<Rezerwation>();
 		return rezerwation;
 	}
 	public void setRezerwation(Collection<Rezerwation> rezerwation) {
@@ -89,4 +107,24 @@ public class Machine {
 		ID = iD;
 	}
 	
+    @Override
+    public String toString() {
+    return "Machine ID="+ID;
+    }
+    
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Machine))
+            return false;
+        Machine m=(Machine)o;
+        if (m.ID == ID)
+            return true;
+        return false;
+    }
+    
+    public int hashCode() {
+        return ID;
+    }
+    
 }
