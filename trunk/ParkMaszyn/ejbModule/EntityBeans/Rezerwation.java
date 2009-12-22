@@ -1,10 +1,10 @@
 package EntityBeans;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,26 +21,34 @@ public class Rezerwation {
 	Integer ID;
 	Date createDate;
 	Date returnDate;
-	@Column(nullable=false)
-	Emploee emploee;
-	@Column(nullable=false)
 	Collection<Machine> machine;
+	Emploee emploee;
 	Boolean isBook;
 	
-	@ManyToMany(fetch=FetchType.LAZY,mappedBy="rezerwation")
-	public Collection<Machine> getMachine() {
-		return machine;
-	}
-	public void setMachine(Collection<Machine> machine) {
-		this.machine = machine;
-	}
-	@ManyToOne(cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-	@JoinColumn(name="emploeeID")
+	@ManyToOne(
+			fetch=FetchType.LAZY,
+	        cascade = {CascadeType.MERGE},
+	        targetEntity = Emploee.class
+	    )
+	@JoinColumn(name="EMPLOYEE_FK")
 	public Emploee getEmploee() {
 		return emploee;
 	}
 	public void setEmploee(Emploee emploee) {
 		this.emploee = emploee;
+	}
+	@ManyToMany(
+	        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+	        fetch=FetchType.LAZY,
+	        mappedBy = "rezerwation",
+	        targetEntity = Machine.class
+	    )
+	public Collection<Machine> getMachine() {
+		if(machine==null) machine=new ArrayList<Machine>();
+		return machine;
+	}
+	public void setMachine(Collection<Machine> machine) {
+		this.machine = machine;
 	}
 
 	@Id
@@ -70,5 +78,23 @@ public class Rezerwation {
 		this.isBook = isBook;
 	}
 	
-	
+    @Override
+    public String toString() {
+    return "Rezerwation ID="+ID;
+    }
+    
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Rezerwation))
+            return false;
+        Rezerwation r=(Rezerwation)o;
+        if (r.ID == ID)
+            return true;
+        return false;
+    }
+    
+    public int hashCode() {
+        return ID;
+    }
 }
