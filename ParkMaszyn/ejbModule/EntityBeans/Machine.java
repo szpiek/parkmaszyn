@@ -12,10 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
-import net.bzdyl.ejb3.criteria.Criteria;
-import net.bzdyl.ejb3.criteria.CriteriaFactory;
-import net.bzdyl.ejb3.criteria.restrictions.Restrictions;
-
 @Entity(name="Machine")
 @Table(name="Machine")
 public class Machine {
