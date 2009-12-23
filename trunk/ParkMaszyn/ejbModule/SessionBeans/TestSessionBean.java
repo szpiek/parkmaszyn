@@ -4,12 +4,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import net.bzdyl.ejb3.criteria.Criteria;
-import net.bzdyl.ejb3.criteria.CriteriaFactory;
-
 import DataRepository.EmploeeFinder;
+import DataRepository.EmploeeFinderCriteria;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
+import DataRepository.RezerwationFinderCriteria;
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
@@ -33,40 +32,20 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     public void test()
     {
     	System.out.println("JEA");
-    	Machine m=new Machine();
-    	m.setArchitecture("x86-64");
-    	m.setBits(8);
-    	m.setIP("192.168.140.1");
-    	m.setLogin("hehe");
-    	m.setMemory(2048);
-    	m.setOs("Mac OS");
-    	m.setPassword("hihi");
-    	m.setProcessor("Intel Core 2 Duo Secundo");
-    	
-    	Machine m2=new Machine();
-    	m2.setArchitecture("x86");
-    	m2.setBits(8);
-    	m2.setIP("192.168.140.2");
-    	m2.setLogin("trallala");
-    	m2.setMemory(2048);
-    	m2.setOs("Viœta");
-    	m2.setPassword("1214");
-    	m2.setProcessor("AMD K6");
-    	em.persist(m2);
-    	em.persist(m);
     	
     	Rezerwation rez=new Rezerwation();
-    	rez.getMachine().add(m);
-    	rez.getMachine().add(m2);
+    	rez.getMachine().add( MachineFinder.getAllMachines(em).get(0) );
+    	rez.getMachine().add( MachineFinder.getAllMachines(em).get(1) );
     	em.persist(rez);
     	
-    	m.getRezerwation().add(rez);
-    	m2.getRezerwation().add(rez);
-    	em.persist(m2);
-    	em.persist(m);
+    	MachineFinder.getAllMachines(em).get(0).getRezerwation().add(rez);
+    	MachineFinder.getAllMachines(em).get(1).getRezerwation().add(rez);
+    	em.persist(MachineFinder.getAllMachines(em).get(0));
+    	em.persist(MachineFinder.getAllMachines(em).get(1));
     	
     	Emploee emploee=new Emploee();
     	emploee.getRezerwation().add(rez);
+    	emploee.setFirstName("John");
     	em.persist(emploee);
     	
     	rez.setEmploee(emploee);
@@ -95,15 +74,23 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     				System.out.println(mach);
     			}
     	}
-    	EmploeeFinder.removeEmploee(em, testEmp);
+    	
     	MachineFinderCriteria mfc=new MachineFinderCriteria();
     	mfc.os="Mac OS";
     	
     	
+    	
     	for(Machine mach:MachineFinder.getMachinesByStrictCriteria(em, mfc))
 		{
-			//MachineFinder.removeMachine(em, mach);
     		System.out.println(mach);
+		}
+    	
+    	EmploeeFinderCriteria efc=new EmploeeFinderCriteria();
+    	efc.firstName="John";
+    	
+    	for(Emploee empl:EmploeeFinder.getEmploeesByStrictCriteria(em, efc))
+		{
+    		System.out.println(empl);
 		}
     	System.out.println("JEA5");
     }
