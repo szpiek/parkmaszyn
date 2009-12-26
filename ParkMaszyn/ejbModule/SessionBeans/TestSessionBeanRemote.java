@@ -5,4 +5,6 @@ import javax.ejb.Remote;
 public interface TestSessionBeanRemote {
 	
 	public void test();
+
+	public String sayHello();
 }
