@@ -28,6 +28,11 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     public TestSessionBean() {
         // TODO Auto-generated constructor stub
     }
+    
+    public String sayHello()
+    {
+    	return "Hello PARK MASZYN";
+    }
 
     public void test()
     {
