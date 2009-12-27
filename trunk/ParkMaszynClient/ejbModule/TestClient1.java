@@ -1,15 +1,42 @@
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import SessionBeans.TestSessionBean;
-import SessionBeans.TestSessionBeanRemote;
+import DataRepository.EmploeeFinderCriteria;
+import EntityBeans.Emploee;
+import SessionBeans.DataProviderBeanRemote;
+import SessionBeans.FindTestSessionBeanRemote;
 
 
 public class TestClient1 {
 
+	public static void clearTest(Context context) throws NamingException
+	{
+		DataProviderBeanRemote dpbr=(DataProviderBeanRemote) context.lookup("DataProviderBean/remote");
+		dpbr.clearDatabase();	
+	}
+	
+	public static void addTest(Context context) throws NamingException
+	{
+		DataProviderBeanRemote dpbr=(DataProviderBeanRemote) context.lookup("DataProviderBean/remote");
+		dpbr.addSimpleData();	
+	}
+	
+	public static void findEmploeeTest(Context context) throws NamingException
+	{
+		FindTestSessionBeanRemote dpbr=(FindTestSessionBeanRemote) context.lookup("FindTestSessionBean/remote");
+		EmploeeFinderCriteria efc=new EmploeeFinderCriteria();
+		efc.firstName="*io*";
+		ArrayList<Emploee> emploees=dpbr.findEmploee(efc, true);
+		for(Emploee emp:emploees)
+			System.out.println(emp);
+	}
+	
+	
+	
 	public static void main(String[] args)
 	{
 		Properties properties = new Properties();
@@ -18,8 +45,9 @@ public class TestClient1 {
 		properties.put("java.naming.provider.url","localhost:1099");
 		try {
 			Context context = new InitialContext(properties);
-			TestSessionBeanRemote tsbr=(TestSessionBeanRemote) context.lookup(TestSessionBean.RemoteJNDIName);
-			tsbr.test();
+			clearTest(context);
+			addTest(context);
+			findEmploeeTest(context);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
