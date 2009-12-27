@@ -8,7 +8,6 @@ import DataRepository.EmploeeFinder;
 import DataRepository.EmploeeFinderCriteria;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
-import DataRepository.RezerwationFinderCriteria;
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
@@ -26,7 +25,7 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
 	public static final String LocalJNDIName =  TestSessionBean.class.getSimpleName() + "/local";
 	
     public TestSessionBean() {
-        // TODO Auto-generated constructor stub
+       
     }
     
     public String sayHello()

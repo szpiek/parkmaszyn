@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import EntityBeans.Machine;
-import EntityBeans.Rezerwation;
 
 public class MachineFinder {
 	@SuppressWarnings("unchecked")
@@ -20,19 +19,6 @@ public class MachineFinder {
 	{
 		Query query = criteria.getStrictCriteria().prepareQuery(em);
 		return (ArrayList<Machine>)query.getResultList();
-	} 
-	
-	public static void removeMachine(EntityManager em, Machine mach)
-	{
-		
-		for(Rezerwation rez:mach.getRezerwation())
-			{
-				rez.getMachine().remove(mach);
-				if(rez.getMachine().isEmpty())
-					RezerwationFinder.removeRezervation(em, rez);
-			}
-		em.remove(mach);
 	}
-	
 
 }
