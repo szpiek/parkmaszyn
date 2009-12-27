@@ -1,10 +1,16 @@
 package DataRepository;
 
+import java.io.Serializable;
+
 import net.bzdyl.ejb3.criteria.Criteria;
 import net.bzdyl.ejb3.criteria.CriteriaFactory;
 import net.bzdyl.ejb3.criteria.restrictions.Restrictions;
 
-public class MachineFinderCriteria{
+public class MachineFinderCriteria extends ISortable implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1393387137732965333L;
 	public String os=null;
 	public String architecture=null;
 	public String processor=null;
@@ -21,6 +27,7 @@ public class MachineFinderCriteria{
 		if(os!=null) criteria.add( Restrictions.eq("os", os ) );
 		if(architecture!=null) criteria.add( Restrictions.eq("architecture", architecture.toString()) );
 		if(processor!=null) criteria.add( Restrictions.eq("processor", processor.toString()) );
+		addSortOrder(criteria);
 		return criteria;
 	}
 }

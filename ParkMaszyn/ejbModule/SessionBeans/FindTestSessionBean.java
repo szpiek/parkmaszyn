@@ -8,7 +8,10 @@ import javax.persistence.PersistenceContext;
 
 import DataRepository.EmploeeFinder;
 import DataRepository.EmploeeFinderCriteria;
+import DataRepository.MachineFinder;
+import DataRepository.MachineFinderCriteria;
 import EntityBeans.Emploee;
+import EntityBeans.Machine;
 
 /**
  * Session Bean implementation class FindTestSessionBean
@@ -32,6 +35,12 @@ public class FindTestSessionBean implements FindTestSessionBeanRemote, FindTestS
     public ArrayList<Emploee> findEmploee(EmploeeFinderCriteria efc, boolean strict)
     {
     	if(strict) return EmploeeFinder.getEmploeesByStrictCriteria(em, efc);
+    	return null;
+    }
+    
+    public ArrayList<Machine> findMachine(MachineFinderCriteria mfc, boolean strict)
+    {
+    	if(strict) return MachineFinder.getMachinesByStrictCriteria(em, mfc);
     	return null;
     }
 
