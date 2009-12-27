@@ -16,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name="Rezerwation")
 public class Rezerwation  implements Serializable{
@@ -39,9 +42,8 @@ public class Rezerwation  implements Serializable{
 		isBook=book;
 	}
 	
-	
 	@ManyToOne(
-			fetch=FetchType.LAZY,
+			fetch=FetchType.EAGER,
 	        cascade = {CascadeType.MERGE},
 	        targetEntity = Emploee.class
 	    )
@@ -52,9 +54,10 @@ public class Rezerwation  implements Serializable{
 	public void setEmploee(Emploee emploee) {
 		this.emploee = emploee;
 	}
+	@Fetch(FetchMode.SUBSELECT)
 	@ManyToMany(
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-	        fetch=FetchType.LAZY,
+	        fetch=FetchType.EAGER,
 	        mappedBy = "rezerwation",
 	        targetEntity = Machine.class
 	    )

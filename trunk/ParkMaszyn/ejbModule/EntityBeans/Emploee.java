@@ -44,7 +44,7 @@ public class Emploee implements Serializable{
         @OneToMany(
     	        cascade = {CascadeType.REMOVE},
     	        mappedBy = "emploee",
-    	        fetch=FetchType.LAZY,
+    	        fetch=FetchType.EAGER,
     	        targetEntity = Rezerwation.class
     	    )
         public Collection<Rezerwation> getRezerwation() {

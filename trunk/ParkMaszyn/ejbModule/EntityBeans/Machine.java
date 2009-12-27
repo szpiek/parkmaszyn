@@ -52,7 +52,7 @@ public class Machine  implements Serializable{
 	
 	@ManyToMany(
         targetEntity=Rezerwation.class,
-        fetch=FetchType.LAZY,
+        fetch=FetchType.EAGER,
         cascade={}
     )
     @JoinTable(
