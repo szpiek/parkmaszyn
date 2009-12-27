@@ -6,7 +6,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import DataRepository.EmploeeFinderCriteria;
+import DataRepository.ISortable;
+import DataRepository.MachineFinderCriteria;
 import EntityBeans.Emploee;
+import EntityBeans.Machine;
 import SessionBeans.DataProviderBeanRemote;
 import SessionBeans.FindTestSessionBeanRemote;
 
@@ -29,9 +32,22 @@ public class TestClient1 {
 	{
 		FindTestSessionBeanRemote dpbr=(FindTestSessionBeanRemote) context.lookup("FindTestSessionBean/remote");
 		EmploeeFinderCriteria efc=new EmploeeFinderCriteria();
-		efc.firstName="*io*";
+		efc.firstName="*i*tr";
+		efc.setSortType(ISortable.SORT_DESC);
+		efc.setSortProperty("lastName");
 		ArrayList<Emploee> emploees=dpbr.findEmploee(efc, true);
 		for(Emploee emp:emploees)
+			System.out.println(emp);
+	}
+	
+	public static void findMachineTest(Context context) throws NamingException
+	{
+		FindTestSessionBeanRemote dpbr=(FindTestSessionBeanRemote) context.lookup("FindTestSessionBean/remote");
+		MachineFinderCriteria mfc=new MachineFinderCriteria();
+		mfc.setSortType(ISortable.SORT_DESC);
+		mfc.setSortProperty("os");
+		ArrayList<Machine> emploees=dpbr.findMachine(mfc, true);
+		for(Machine emp:emploees)
 			System.out.println(emp);
 	}
 	
@@ -45,9 +61,9 @@ public class TestClient1 {
 		properties.put("java.naming.provider.url","localhost:1099");
 		try {
 			Context context = new InitialContext(properties);
-			clearTest(context);
-			addTest(context);
-			findEmploeeTest(context);
+			//clearTest(context);
+			//addTest(context);
+			findMachineTest(context);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
