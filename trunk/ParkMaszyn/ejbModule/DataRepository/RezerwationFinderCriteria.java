@@ -1,5 +1,6 @@
 package DataRepository;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import net.bzdyl.ejb3.criteria.Criteria;
@@ -8,7 +9,11 @@ import net.bzdyl.ejb3.criteria.restrictions.Restrictions;
 
 
 
-public class RezerwationFinderCriteria {
+public class RezerwationFinderCriteria extends ISortable implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3385101416110515465L;
 	public Date createDate=null;
 	public Date createDateFrom=null;
 	public Date createDateTo=null;
@@ -23,6 +28,7 @@ public class RezerwationFinderCriteria {
 		if(createDate!=null) criteria.add( Restrictions.eq("createDate", createDate) );
 		if(returnDate!=null) criteria.add( Restrictions.eq("returnDate", returnDate) );
 		if(isBook!=null) criteria.add( Restrictions.eq("isBook", isBook) );
+		addSortOrder(criteria);
 		return criteria;
 	}
 }

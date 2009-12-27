@@ -6,7 +6,7 @@ import net.bzdyl.ejb3.criteria.Criteria;
 import net.bzdyl.ejb3.criteria.CriteriaFactory;
 import net.bzdyl.ejb3.criteria.restrictions.Restrictions;
 
-public class EmploeeFinderCriteria implements Serializable{
+public class EmploeeFinderCriteria extends ISortable implements Serializable{
     /**
 	 * 
 	 */
@@ -23,6 +23,7 @@ public class EmploeeFinderCriteria implements Serializable{
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeQuery(email)) );
 		if(department!=null) criteria.add( Restrictions.like("department",FinderFunctions.getLikeQuery(department)) );
+		addSortOrder(criteria);
 		return criteria;
 	}
     
@@ -33,6 +34,7 @@ public class EmploeeFinderCriteria implements Serializable{
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeFitQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeFitQuery(email)) );
 		if(department!=null) criteria.add( Restrictions.like("department",FinderFunctions.getLikeFitQuery(department)) );
+		addSortOrder(criteria);
 		return criteria;
 	}
     
