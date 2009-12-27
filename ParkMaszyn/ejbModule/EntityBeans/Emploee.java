@@ -1,5 +1,6 @@
 package EntityBeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,13 +15,31 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Emploee")
-public class Emploee {
-        Integer ID;
+public class Emploee implements Serializable{
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = 938499949640813684L;
+		Integer ID;
         private String firstName;
         private String lastName;
         private String email;
         private String department;
         Collection<Rezerwation> rezerwation;
+        private Integer phone;
+        private String manager;
+        
+        public Emploee(){}
+        
+        public Emploee(String fName,String lName, String mail,String depart,Integer telephone,String boss)
+        {
+        	firstName=fName;
+        	lastName=lName;
+        	email=mail;
+        	department=depart;
+        	phone=telephone;
+        	manager=boss;
+        }
         
         @OneToMany(
     	        cascade = {CascadeType.REMOVE},
@@ -79,13 +98,6 @@ public class Emploee {
         public void setManager(String manager) {
                 this.manager = manager;
         }
-        Integer phone;
-        private String manager;
-        
-        @Override
-        public String toString() {
-        return "Emploee ID="+ID;
-        }
         
         public boolean equals(Object o) {
             if (o == this)
@@ -102,4 +114,8 @@ public class Emploee {
             return ID;
         }
 
+        public String toString()
+        {
+        	return firstName+" "+lastName+" "+email+" "+department+" "+manager;
+        }
 }

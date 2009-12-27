@@ -1,5 +1,6 @@
 package EntityBeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
@@ -14,8 +15,12 @@ import javax.persistence.JoinColumn;
 
 @Entity(name="Machine")
 @Table(name="Machine")
-public class Machine {
+public class Machine  implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 660681201810885116L;
 	private String os;
 	private String architecture;
 	private String processor;
@@ -26,7 +31,20 @@ public class Machine {
 	private Integer bits;
 	private Integer ID;
 	Collection<Rezerwation> rezerwation;
-
+	
+	public Machine(){}
+	
+	public Machine(String system,String arch,String proc,String ipNumber ,String log, String pass, Integer mem, Integer nbits)
+	{
+		os=system;
+		architecture=arch;
+		processor=proc;
+		IP=ipNumber;
+		login=log;
+		password=pass;
+		memory=mem;
+		bits=nbits;
+	}
 	
 	public String getOs() {
 		return os;

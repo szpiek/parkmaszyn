@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import EntityBeans.Emploee;
-import EntityBeans.Machine;
-import EntityBeans.Rezerwation;
 
 public class EmploeeFinder {
 	@SuppressWarnings("unchecked")
@@ -23,10 +21,5 @@ public class EmploeeFinder {
 		return (ArrayList<Emploee>)query.getResultList();
 	} 
 	
-	public static void removeEmploee(EntityManager em, Emploee emp)
-	{
-		for(Rezerwation rez:emp.getRezerwation())
-			RezerwationFinder.removeRezervation(em, rez);
-		em.remove(emp);
-	}
+	
 }

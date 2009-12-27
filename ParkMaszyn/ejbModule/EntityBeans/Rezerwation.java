@@ -1,5 +1,6 @@
 package EntityBeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,13 +18,27 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Rezerwation")
-public class Rezerwation {
+public class Rezerwation  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3824088400077308476L;
 	Integer ID;
 	Date createDate;
 	Date returnDate;
 	Collection<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
+	
+	public Rezerwation(){}
+	
+	public Rezerwation(Date created, Date returned, Boolean book)
+	{
+		createDate=created;
+		returnDate=returned;
+		isBook=book;
+	}
+	
 	
 	@ManyToOne(
 			fetch=FetchType.LAZY,
