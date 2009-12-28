@@ -31,6 +31,11 @@ public class FindTestSessionBean implements FindTestSessionBeanRemote, FindTestS
     public FindTestSessionBean() {
      
     }
+    @SuppressWarnings("unchecked")
+	public ArrayList<Emploee> findAllEmploee()
+    {
+    	return (ArrayList<Emploee>)(em.createQuery("SELECT OBJECT(emploee) FROM Emploee emploee").getResultList());
+    }
     
     public ArrayList<Emploee> findEmploee(EmploeeFinderCriteria efc, boolean strict)
     {
