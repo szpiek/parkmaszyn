@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="remoting-service" 
+    class="flex.messaging.services.RemotingService">
+
+    <adapters>
+        <adapter-definition id="java-object" class="flex.messaging.services.remoting.adapters.JavaAdapter" default="true"/>
+    </adapters>
+
+    <default-channels>
+        <channel ref="my-amf"/>
+    </default-channels>
+    
+    <destination id="FindTestSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>FindTestSessionBean/remote</source>
+    	</properties>
+    </destination>
+    
+    <destination id="TestSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>TestSessionBean/remote</source>
+    	</properties>
+    </destination>
+
+</service>
