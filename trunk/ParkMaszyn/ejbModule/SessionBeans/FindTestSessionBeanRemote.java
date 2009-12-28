@@ -12,4 +12,5 @@ import EntityBeans.Machine;
 public interface FindTestSessionBeanRemote {
 	public ArrayList<Emploee> findEmploee(EmploeeFinderCriteria efc, boolean strict);
 	public ArrayList<Machine> findMachine(MachineFinderCriteria mfc, boolean strict);
+	public ArrayList<Emploee> findAllEmploee();
 }

@@ -30,7 +30,17 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     
     public String sayHello()
     {
-    	return "Hello PARK MASZYN";
+    	return "HELLO WEB CLIENT!!!";
+    }
+    
+    public Emploee getEmploee()
+    {
+    	return new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda");
+    }
+    
+    public void displayEmploee(Emploee emploee)
+    {
+    	System.out.println(emploee.toString());
     }
 
     public void test()
