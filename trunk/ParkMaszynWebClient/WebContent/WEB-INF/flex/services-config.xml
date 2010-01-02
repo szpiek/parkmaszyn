@@ -2,7 +2,8 @@
 <services-config>
 
     <services>
-        <service-include file-path="remoting-config.xml" />       
+        <service-include file-path="remoting-config.xml" />    
+        <service-include file-path="messaging-config.xml" />   
     </services>
 
 	<factories>
@@ -17,6 +18,18 @@
     <channels>
         <channel-definition id="my-amf" class="mx.messaging.channels.AMFChannel">
             <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+        
+        <channel-definition id="my-streaming-amf" class="mx.messaging.channels.StreamingAMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/streaming-amf" class="flex.messaging.endpoints.StreamingAMFEndpoint"/>
+        </channel-definition> 
+        
+        <channel-definition id="my-polling-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/amfpolling" class="flex.messaging.endpoints.AMFEndpoint"/>
+            <properties>
+                <polling-enabled>true</polling-enabled>
+                <polling-interval-seconds>4</polling-interval-seconds>
+            </properties>
         </channel-definition>
 
         <channel-definition id="my-secure-amf" class="mx.messaging.channels.SecureAMFChannel">
