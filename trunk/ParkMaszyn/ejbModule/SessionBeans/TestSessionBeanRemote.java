@@ -13,4 +13,6 @@ public interface TestSessionBeanRemote {
 	public Emploee getEmploee();
 	
 	public void displayEmploee(Emploee emploee);
+	
+	public void setTimer();
 }
