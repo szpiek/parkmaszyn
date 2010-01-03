@@ -1,6 +1,10 @@
 package SessionBeans;
 
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.ejb.TimedObject;
+import javax.ejb.Timer;
+import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,10 +20,13 @@ import EntityBeans.Rezerwation;
  * Session Bean implementation class TestSessionBean
  */
 @Stateless
-public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLocal {
+public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLocal, TimedObject {
 
 	@PersistenceContext
 	EntityManager em;
+	
+	@Resource
+	TimerService timerService;
 
 	public static final String RemoteJNDIName =  TestSessionBean.class.getSimpleName() + "/remote";
 	public static final String LocalJNDIName =  TestSessionBean.class.getSimpleName() + "/local";
@@ -108,6 +115,17 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
 		}
     	System.out.println("JEA5");
     }
+
+	@Override
+	public void ejbTimeout(Timer timer) {
+		System.out.println("TIMER ecexuted !!! MSG: " + (String)timer.getInfo());
+	}
+
+	@Override
+	public void setTimer() {
+		String msg = "Message from setTimer()";
+		timerService.createTimer(5000, msg);
+	}
 
     
     
