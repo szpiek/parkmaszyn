@@ -12,10 +12,11 @@ public class SessionHandler {
 		mySession= FlexContext.getFlexSession();
 	}
 	
-	public String getUserName()
+	public String getUser()
 	{
 		String userName = null;
 		userName = (String)mySession.getAttribute("userName");
+		System.out.println("_" + userName + "_");
 		return userName;
 	}
 	
