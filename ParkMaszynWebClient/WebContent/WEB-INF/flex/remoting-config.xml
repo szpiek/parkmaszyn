@@ -23,5 +23,12 @@
     		<source>TestSessionBean/remote</source>
     	</properties>
     </destination>
+	
+	<destination id="SessionHandler">
+		<properties>
+			<source>com.eBusiness.SessionHandler</source>
+		</properties>
+		<adapter ref="java-object"/>
+	</destination>
 
 </service>
