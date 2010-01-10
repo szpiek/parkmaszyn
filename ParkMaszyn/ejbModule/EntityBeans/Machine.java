@@ -44,6 +44,19 @@ public class Machine  implements Serializable{
 	
 	public Machine(){}
 	
+	public void copyFromMachine(Machine m)
+	{
+		os=m.os;
+		architecture=m.architecture;
+		processor=m.processor;
+		IP=m.IP;
+		login=m.login;
+		password=m.password;
+		memory=m.memory;
+		bits=m.bits;
+		isBook=m.isBook;
+	}
+	
 	public Machine(String system,String arch,String proc,String ipNumber ,String log, String pass, Integer mem, Integer nbits, boolean book)
 	{
 		os=system;
