@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -41,5 +42,44 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
     	}
     	return null;
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<Emploee> getAll(int page)
+    {
+    	return em.createNamedQuery("getAllEmployes").getResultList();
+    }
+
+	@Override
+	public boolean persist(Emploee e) {
+		try
+		{
+			em.persist(e);
+		}
+		catch(EntityExistsException ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean remove(Emploee e) {
+		try
+		{
+			em.remove(e);
+		}
+		catch(IllegalStateException ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		catch(IllegalArgumentException ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
+	}
 
 }
