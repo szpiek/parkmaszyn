@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@NamedQuery(name="getAllEmployes", query="FROM Emploee e WHERE admin=b'0'")
+@NamedQuery(name="getAllEmployes", query="FROM Emploee e WHERE admin=0")
 @Table(name="Emploee")
 public class Emploee implements Serializable{
         /**
