@@ -7,8 +7,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import DataRepository.DataOperations;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
+import DataRepository.RezerwationFinder;
+import DataRepository.RezerwationFinderCriteria;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
 
@@ -50,20 +53,32 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		return MachineFinder.getMachinesByStrictCriteria(em, mfc);
 	}
 	
+	public ArrayList<Machine> getByCriteria(MachineFinderCriteria mfc)
+	{
+		return MachineFinder.getMachinesByStrictCriteria(em, mfc);
+	}
+	
 	public void persistMachine(Machine mach)
 	{
-		em.persist(mach);
+		MachineFinderCriteria mfc=new MachineFinderCriteria();
+		mfc.ID=mach.getID();
+		Machine m2=MachineFinder.getMachinesByStrictCriteria(em, mfc).get(0);
+		m2.copyFromMachine(mach);
+		em.persist(m2);
 	}
 	
 	public void removeMachine(Machine mach)
 	{
-		em.remove(mach);
+		DataOperations.removeMachine(em, mach);
 	}
 	
 	public void releaseMachine(Machine mach, Rezerwation res)
 	{
-		res.getMachine().remove(mach);
-		em.persist(res);
+		RezerwationFinderCriteria mfc=new RezerwationFinderCriteria();
+		mfc.ID=mach.getID();
+		Rezerwation r2=RezerwationFinder.getRezerwationsByStrictCriteria(em, mfc).get(0);
+		r2.getMachine().remove(mach);
+		em.persist(r2);
 	}
 	
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList<Machine> machs)

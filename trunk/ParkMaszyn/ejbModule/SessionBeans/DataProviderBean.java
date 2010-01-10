@@ -48,6 +48,10 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	machines.add(new Machine("Windows XP SP3","x86","Pentium 4 1,5 Ghz","192.168.140.4","brzeczyszczykiewicz4","maslo",512,32,true));
     	machines.add(new Machine("Red Hat Linux","x86-64","Pentium 133 Mhz","192.168.140.5","brzeczyszczykiewicz5","maslo",256,64,true));
     	machines.add(new Machine("Mac OS Tiger","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32,true));
+    	//ghost machines:
+    	machines.add(new Machine("Mac OS Panther","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz7","maslo",4096,32,false));
+    	machines.add(new Machine("Mac OS Coconut","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz8","maslo",4096,32,false));
+    	
     	for(Machine mach:machines) em.persist(mach);
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();
@@ -55,10 +59,17 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
     	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
     	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
+    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
+    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
+    	
     	for(Rezerwation rez:rezerwations) em.persist(rez);
+    	
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(0), emploees.get(1));
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(1), emploees.get(0));
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(2), emploees.get(4));
+    	DataOperations.addRezerwationEmploee(em, rezerwations.get(3), emploees.get(0));
+    	DataOperations.addRezerwationEmploee(em, rezerwations.get(4), emploees.get(0));
+    	
     	DataOperations.addRezerwationMachine(em, rezerwations.get(0), machines.get(1));
     	DataOperations.addRezerwationMachine(em, rezerwations.get(0), machines.get(2));
     	DataOperations.addRezerwationMachine(em, rezerwations.get(0), machines.get(4));
@@ -68,6 +79,9 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	DataOperations.addRezerwationMachine(em, rezerwations.get(2), machines.get(2));
     	DataOperations.addRezerwationMachine(em, rezerwations.get(2), machines.get(5));
     	DataOperations.addRezerwationMachine(em, rezerwations.get(2), machines.get(0));
+    	DataOperations.addRezerwationMachine(em, rezerwations.get(3), machines.get(6));
+    	DataOperations.addRezerwationMachine(em, rezerwations.get(4), machines.get(7));
+    	
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- STOP");
     }
 

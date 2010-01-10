@@ -21,10 +21,12 @@ public class RezerwationFinderCriteria extends ISortable implements Serializable
 	public Date returnDateFrom=null;
 	public Date returnDateTo=null;
 	public Boolean isBook=null;
+	public Integer ID;
 	
 	public Criteria getStrictCriteria()
 	{
 		Criteria criteria=CriteriaFactory.createCriteria("Rezerwation");
+		if(ID!=null)criteria.add( Restrictions.like("ID",ID ) );
 		if(createDate!=null) criteria.add( Restrictions.eq("createDate", createDate) );
 		if(returnDate!=null) criteria.add( Restrictions.eq("returnDate", returnDate) );
 		if(isBook!=null) criteria.add( Restrictions.eq("isBook", isBook) );

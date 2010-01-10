@@ -11,6 +11,7 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 8558333151206044458L;
+	public Integer ID=null;
 	public String firstName=null;
     public String lastName=null;
     public String email=null;
@@ -21,6 +22,7 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
     public Criteria getStrictCriteria()
 	{
     	Criteria criteria=CriteriaFactory.createCriteria("Emploee");
+    	if(ID!=null)criteria.add( Restrictions.like("ID",ID ) );
 		if(firstName!=null) criteria.add( Restrictions.like("firstName",FinderFunctions.getLikeQuery(firstName) ) );
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeQuery(email)) );
@@ -34,6 +36,7 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
     public Criteria getCriteria()
 	{
 		Criteria criteria=CriteriaFactory.createCriteria("Emploee");
+		if(ID!=null)criteria.add( Restrictions.like("ID",ID ) );
 		if(firstName!=null) criteria.add( Restrictions.like("firstName",FinderFunctions.getLikeFitQuery(firstName) ) );
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeFitQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeFitQuery(email)) );

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.ejb.Remote;
 
+import DataRepository.MachineFinderCriteria;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
 
@@ -16,5 +17,5 @@ public interface MachineSessionBeanRemote {
 	public void removeMachine(Machine mach);
 	public void releaseMachine(Machine mach, Rezerwation res);
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList<Machine> machs);
-
+	public ArrayList<Machine> getByCriteria(MachineFinderCriteria mfc);
 }
