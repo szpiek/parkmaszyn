@@ -15,6 +15,8 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
     public String lastName=null;
     public String email=null;
     public String department=null;
+    public String password=null;
+    public Boolean admin=null;
     
     public Criteria getStrictCriteria()
 	{
@@ -23,6 +25,8 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeQuery(email)) );
 		if(department!=null) criteria.add( Restrictions.like("department",FinderFunctions.getLikeQuery(department)) );
+		if(password!=null) criteria.add(Restrictions.eq("password",password));
+		if(admin!=null) criteria.add(Restrictions.eq("admin",admin));
 		addSortOrder(criteria);
 		return criteria;
 	}
@@ -34,6 +38,8 @@ public class EmploeeFinderCriteria extends ISortable implements Serializable{
 		if(lastName!=null) criteria.add( Restrictions.like("lastName", FinderFunctions.getLikeFitQuery(lastName)) );
 		if(email!=null) criteria.add( Restrictions.like("email", FinderFunctions.getLikeFitQuery(email)) );
 		if(department!=null) criteria.add( Restrictions.like("department",FinderFunctions.getLikeFitQuery(department)) );
+		if(password!=null) criteria.add(Restrictions.eq("password",password));
+		if(admin!=null) criteria.add(Restrictions.eq("admin",admin));
 		addSortOrder(criteria);
 		return criteria;
 	}

@@ -36,7 +36,7 @@ public class Emploee implements Serializable{
         
         public Emploee(){}
         
-        public Emploee(String fName,String lName, String mail,String depart,Integer telephone,String boss)
+        public Emploee(String fName,String lName, String mail,String depart,Integer telephone,String boss,String pass,boolean adm)
         {
         	firstName=fName;
         	lastName=lName;
@@ -44,6 +44,8 @@ public class Emploee implements Serializable{
         	department=depart;
         	phone=telephone;
         	manager=boss;
+        	password=pass;
+        	admin=adm;
         }
         
         @OneToMany(

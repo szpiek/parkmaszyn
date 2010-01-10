@@ -20,6 +20,7 @@ public class MachineFinderCriteria extends ISortable implements Serializable{
 	public Integer memory=null;
 	public Integer bits=null;
 	public Integer ID=null;
+	public Boolean isBook=null;
 	
 	public Criteria getStrictCriteria()
 	{
@@ -27,6 +28,7 @@ public class MachineFinderCriteria extends ISortable implements Serializable{
 		if(os!=null) criteria.add( Restrictions.eq("os", os ) );
 		if(architecture!=null) criteria.add( Restrictions.eq("architecture", architecture.toString()) );
 		if(processor!=null) criteria.add( Restrictions.eq("processor", processor.toString()) );
+		if(isBook!=null) criteria.add( Restrictions.eq("isBook", isBook) );
 		addSortOrder(criteria);
 		return criteria;
 	}
