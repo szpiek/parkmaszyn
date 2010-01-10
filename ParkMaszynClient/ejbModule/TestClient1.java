@@ -61,9 +61,9 @@ public class TestClient1 {
 		properties.put("java.naming.provider.url","localhost:1099");
 		try {
 			Context context = new InitialContext(properties);
-			//clearTest(context);
-			//addTest(context);
-			findMachineTest(context);
+			clearTest(context);
+			addTest(context);
+			//findMachineTest(context);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
