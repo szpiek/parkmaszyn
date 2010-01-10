@@ -9,6 +9,10 @@ public class UserInfo implements Serializable{
 	private Integer id = null;
 	private boolean admin = false;
 	
+	public UserInfo()
+	{
+	}
+	
 	public UserInfo(Emploee e)
 	{
 		this.id = e.getID();
