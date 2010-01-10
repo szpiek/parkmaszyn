@@ -53,10 +53,14 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 	public boolean persist(Emploee e) {
 		try
 		{
+			e.setPassword(PasswordGenerator.generatePassword(e.getPassword()));
 			em.persist(e);
 		}
 		catch(EntityExistsException ex)
 		{
+			System.out.println(ex.getMessage());
+			return false;
+		} catch (NoSuchAlgorithmException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
