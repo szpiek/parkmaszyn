@@ -2,7 +2,6 @@ package EntityBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -14,12 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
+@NamedQuery(name="getRezByUser", query="FROM Rezerwation r WHERE EMPLOYEE_FK=:userId")
 @Table(name="Rezerwation")
 public class Rezerwation  implements Serializable{
 	/**
@@ -29,7 +30,7 @@ public class Rezerwation  implements Serializable{
 	Integer ID;
 	Date createDate;
 	Date returnDate;
-	Collection<Machine> machine;
+	ArrayList<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
 	
@@ -61,11 +62,11 @@ public class Rezerwation  implements Serializable{
 	        mappedBy = "rezerwation",
 	        targetEntity = Machine.class
 	    )
-	public Collection<Machine> getMachine() {
+	public ArrayList<Machine> getMachine() {
 		if(machine==null) machine=new ArrayList<Machine>();
 		return machine;
 	}
-	public void setMachine(Collection<Machine> machine) {
+	public void setMachine(ArrayList<Machine> machine) {
 		this.machine = machine;
 	}
 
