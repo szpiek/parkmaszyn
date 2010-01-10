@@ -42,7 +42,7 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     
     public Emploee getEmploee()
     {
-    	return new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda");
+    	return new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda","123",false);
     }
     
     public void displayEmploee(Emploee emploee)

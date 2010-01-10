@@ -32,22 +32,22 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     {
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- START");
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
-    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda"));
-    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Yoda"));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Yoda"));
-    	emploees.add(new Emploee("Jan","Rokita","szpieg@gmail.com","Development",234,"Yoda"));
-    	emploees.add(new Emploee("Romuad","Wit","reset@gmail.com","Development",567,"Yoda"));
-    	emploees.add(new Emploee("El¿bieta","Richter-W¹s","szpieg@gmail.com","Development",890,"Yoda"));
-    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Yoda"));
+    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda","123",false));
+    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Yoda","123",false));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Yoda","123",false));
+    	emploees.add(new Emploee("Jan","Rokita","szpieg@gmail.com","Development",234,"Yoda","123",false));
+    	emploees.add(new Emploee("Romuad","Wit","reset@gmail.com","Development",567,"Yoda","123",false));
+    	emploees.add(new Emploee("El¿bieta","Richter-W¹s","szpieg@gmail.com","Development",890,"Yoda","123",false));
+    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Yoda","123",false));
     	for(Emploee emp:emploees) em.persist(emp);
     	
     	ArrayList<Machine> machines=new ArrayList<Machine>();
-    	machines.add(new Machine("Windows 7","x86-64","Core 2 Duo 2.8 Ghz","192.168.140.1","brzeczyszczykiewicz1","maslo",2048,64));
-    	machines.add(new Machine("Fedora Core 12","x86-64","Core 2 Quad 3.6 Ghz","192.168.140.2","brzeczyszczykiewicz2","maslo",2048,64));
-    	machines.add(new Machine("Slackware","x86","Core Duo 1,7 Ghz","192.168.140.3","brzeczyszczykiewicz3","maslo",1024,32));
-    	machines.add(new Machine("Windows XP SP3","x86","Pentium 4 1,5 Ghz","192.168.140.4","brzeczyszczykiewicz4","maslo",512,32));
-    	machines.add(new Machine("Red Hat Linux","x86-64","Pentium 133 Mhz","192.168.140.5","brzeczyszczykiewicz5","maslo",256,64));
-    	machines.add(new Machine("Mac OS Tiger","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32));
+    	machines.add(new Machine("Windows 7","x86-64","Core 2 Duo 2.8 Ghz","192.168.140.1","brzeczyszczykiewicz1","maslo",2048,64,true));
+    	machines.add(new Machine("Fedora Core 12","x86-64","Core 2 Quad 3.6 Ghz","192.168.140.2","brzeczyszczykiewicz2","maslo",2048,64,true));
+    	machines.add(new Machine("Slackware","x86","Core Duo 1,7 Ghz","192.168.140.3","brzeczyszczykiewicz3","maslo",1024,32,true));
+    	machines.add(new Machine("Windows XP SP3","x86","Pentium 4 1,5 Ghz","192.168.140.4","brzeczyszczykiewicz4","maslo",512,32,true));
+    	machines.add(new Machine("Red Hat Linux","x86-64","Pentium 133 Mhz","192.168.140.5","brzeczyszczykiewicz5","maslo",256,64,true));
+    	machines.add(new Machine("Mac OS Tiger","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32,true));
     	for(Machine mach:machines) em.persist(mach);
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();

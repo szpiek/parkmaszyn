@@ -30,11 +30,21 @@ public class Machine  implements Serializable{
 	private Integer memory;
 	private Integer bits;
 	private Integer ID;
+	private Boolean isBook;
+	
+	public Boolean getIsBook() {
+		return isBook;
+	}
+
+	public void setIsBook(Boolean isBook) {
+		this.isBook = isBook;
+	}
+
 	Collection<Rezerwation> rezerwation;
 	
 	public Machine(){}
 	
-	public Machine(String system,String arch,String proc,String ipNumber ,String log, String pass, Integer mem, Integer nbits)
+	public Machine(String system,String arch,String proc,String ipNumber ,String log, String pass, Integer mem, Integer nbits, boolean book)
 	{
 		os=system;
 		architecture=arch;
@@ -44,6 +54,7 @@ public class Machine  implements Serializable{
 		password=pass;
 		memory=mem;
 		bits=nbits;
+		isBook=book;
 	}
 	
 	public String getOs() {
