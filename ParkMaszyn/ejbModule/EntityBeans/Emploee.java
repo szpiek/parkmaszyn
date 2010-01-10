@@ -1,6 +1,9 @@
 package EntityBeans;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -28,6 +31,7 @@ public class Emploee implements Serializable{
         Collection<Rezerwation> rezerwation;
         private Integer phone;
         private String manager;
+        private String password;
         
         public Emploee(){}
         
@@ -74,6 +78,16 @@ public class Emploee implements Serializable{
         public void setLastName(String lastName) {
                 this.lastName = lastName;
         }
+        public void setPassword(String pass) 
+        {
+        	this.password = pass;
+        }
+        
+        public String getPassword()
+        {
+        	return this.password;
+        }
+        
         public String getEmail() {
                 return email;
         }
