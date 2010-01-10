@@ -2,6 +2,7 @@ package EntityBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -30,7 +31,7 @@ public class Rezerwation  implements Serializable{
 	Integer ID;
 	Date createDate;
 	Date returnDate;
-	ArrayList<Machine> machine;
+	Collection<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
 	
@@ -62,11 +63,11 @@ public class Rezerwation  implements Serializable{
 	        mappedBy = "rezerwation",
 	        targetEntity = Machine.class
 	    )
-	public ArrayList<Machine> getMachine() {
+	public Collection<Machine> getMachine() {
 		if(machine==null) machine=new ArrayList<Machine>();
 		return machine;
 	}
-	public void setMachine(ArrayList<Machine> machine) {
+	public void setMachine(Collection<Machine> machine) {
 		this.machine = machine;
 	}
 
