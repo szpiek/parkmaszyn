@@ -23,6 +23,13 @@
     		<source>TestSessionBean/remote</source>
     	</properties>
     </destination>
+    
+    <destination id="UserSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>UserSessionBean/remote</source>
+    	</properties>
+    </destination>
 	
 	<destination id="SessionHandler">
 		<properties>
