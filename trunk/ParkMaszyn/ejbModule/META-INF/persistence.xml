@@ -7,7 +7,7 @@ version="1.0">
 	<jta-data-source>java:/mySQLDS</jta-data-source>
 	<properties>
 		<property name="hibernate.hbm2ddl.auto" value="update"/>
-		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+		<property name="hibernate.dialect" value="Fix.MySQLDialectBitFix"/>
  	</properties>
  	</persistence-unit>
 </persistence>
