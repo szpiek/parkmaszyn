@@ -1,6 +1,7 @@
 package SessionBeans;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,20 +23,21 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 
 	public UserSessionBean() {}
     
-    public UserInfo userLogin(String login, String password)
+    @SuppressWarnings("unchecked")
+	public UserInfo userLogin(String login, String password)
     {
     	try {
 			password = PasswordGenerator.generatePassword(password);
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println(e.getMessage());
 		}
-    	Query checkUser = em.createNamedQuery("from emploee where email=? and password=?");
+    	Query checkUser = em.createQuery("from Emploee e where email=? and password=?");
     	checkUser.setParameter(1, login);
     	checkUser.setParameter(2, password);
-    	Emploee e = (Emploee)checkUser.getSingleResult();
-    	if(e!=null)
+    	List <Emploee> l = checkUser.getResultList();
+    	if(!l.isEmpty())
     	{
-    		return new UserInfo(e);
+    		return new UserInfo(l.get(0));
     	}
     	return null;
     }

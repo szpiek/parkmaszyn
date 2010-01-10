@@ -1,8 +1,11 @@
 package Utilities;
 
+import java.io.Serializable;
+
 import EntityBeans.Emploee;
 
-public class UserInfo {
+public class UserInfo implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private Integer id = null;
 	private boolean admin = false;
 	
