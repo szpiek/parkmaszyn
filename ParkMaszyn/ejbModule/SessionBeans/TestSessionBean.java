@@ -124,7 +124,10 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
 	@Override
 	public void setTimer() {
 		String msg = "Message from setTimer()";
-		//timerService.createTimer(5000000, msg);
+		for(Object t : timerService.getTimers())
+			((Timer)t).cancel();
+			
+			//timerService.createTimer(5000000, msg);
 	}
 
     
