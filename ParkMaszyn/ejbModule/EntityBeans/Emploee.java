@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import Utilities.FlexToJavaConverter;
+
 @Entity
 @NamedQuery(name="getAllEmployes", query="FROM Emploee e WHERE admin=0")
 @Table(name="Emploee")
@@ -33,6 +35,13 @@ public class Emploee implements Serializable{
         private String manager;
         private String password;
         private boolean admin;
+        
+    	public void fixForFlex()
+    	{
+    		rezerwation=(Collection<Rezerwation>)(FlexToJavaConverter.convertRezerwationArray( FlexToJavaConverter.convertFromPersistentBag(rezerwation) ));
+    		for(Rezerwation r:rezerwation)
+    			r.fixForFlex();
+    	}
         
         public Emploee(){}
         
