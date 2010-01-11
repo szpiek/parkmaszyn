@@ -71,7 +71,8 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 	public boolean remove(Emploee e) {
 		try
 		{
-			em.remove(e);
+			Emploee emp = em.merge(e);
+			em.remove(emp);
 		}
 		catch(IllegalStateException ex)
 		{
