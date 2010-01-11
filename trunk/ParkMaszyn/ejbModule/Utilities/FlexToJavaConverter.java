@@ -1,6 +1,7 @@
 package Utilities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
@@ -16,14 +17,17 @@ public class FlexToJavaConverter {
         ASTranslator ast = new ASTranslator();
         Machine machine;
         ASObject aso;
-
+        
         for (int i=0;i< array.size(); i++){
             machine = new Machine();
+            if(!(array.get(i) instanceof Machine) )
+            {
             aso = new ASObject();
 
             aso = (ASObject) array.get(i);
             aso.setType("EntityBeans.Machine");
             machine = (Machine) ast.convert(aso, Machine.class);
+            } machine=(Machine) array.get(i);
             machineArray.add(machine);
         }
         return machineArray;
@@ -57,13 +61,24 @@ public class FlexToJavaConverter {
 
         for (int i=0;i< array.size(); i++){
             rezerwation = new Rezerwation();
+            if(!(array.get(i) instanceof Rezerwation) )
+            {
             aso = new ASObject();
 
             aso = (ASObject) array.get(i);
             aso.setType("EntityBeans.Rezerwation");
             rezerwation = (Rezerwation) ast.convert(aso, Rezerwation.class);
+            } else rezerwation=(Rezerwation) array.get(i);
             rezerwationArray.add(rezerwation);
         }
         return rezerwationArray;
     }
+	
+	@SuppressWarnings("unchecked")
+	public static ArrayList convertFromPersistentBag(Collection c)
+	{
+		ArrayList ret=new ArrayList();
+		if(c!=null)ret.addAll(c);
+		return ret;
+	}
 }

@@ -66,23 +66,24 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	
 	public void persistMachine(Machine mach)
 	{
-		Machine m2=getById(mach.getID());
-		if(m2==null) m2=new Machine();
-		m2.copyFromMachine(mach);
-		em.persist(m2);
+		mach.fixForFlex();
+		mach=em.merge(mach);
 	}
 	
 	public void removeMachine(Machine mach)
 	{
-		Machine machineToRemove=getById(mach.getID());
-		DataOperations.removeMachine(em, machineToRemove);
+		mach.fixForFlex();
+		mach=em.merge(mach);
+		DataOperations.removeMachine(em, mach);
 	}
 	
 	public void releaseMachine(Machine mach, Rezerwation res)
 	{
-		Rezerwation r2=getRezerwationById(res.getID());
+		mach.fixForFlex();
+		res.fixForFlex();
+		res=em.merge(res);
 		Machine toRem=null;
-		for(Machine m:r2.getMachine())
+		for(Machine m:res.getMachine())
 		{
 				if(m.getID().equals(mach.getID()))
 				{
@@ -90,9 +91,9 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 					break;
 				}
 		}
-		toRem.getRezerwation().remove(r2);
-		r2.getMachine().remove(toRem);
-		if(r2.getMachine().isEmpty()) DataOperations.removeRezervation(em, r2);
+		toRem.getRezerwation().remove(res);
+		res.getMachine().remove(toRem);
+		if(res.getMachine().isEmpty()) DataOperations.removeRezervation(em, res);
 	}
 	
 	
@@ -103,18 +104,14 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		ArrayList<Machine> test = FlexToJavaConverter.convertMchineArray(machs);
 		for(Machine m:test)
 		{
-			ArrayList<Rezerwation> rez=FlexToJavaConverter.convertRezerwationArray((ArrayList) m.getRezerwation());
+			m=em.merge(m);
+			ArrayList<Rezerwation> rez=FlexToJavaConverter.convertRezerwationArray( FlexToJavaConverter.convertFromPersistentBag(m.getRezerwation()) );
 			if(rez!=null && rez.size()>0)
-			System.out.println("BY ID="+m.getID());
-			Machine mach=getById(m.getID());
-			System.out.println(mach+" "+mach.getRezerwation());
-			if(mach.getRezerwation()!=null && mach.getRezerwation().size()>0)
 			{
-				System.out.println("ADDING: "+mach.getRezerwation().size()+" RESERWATIONS");
 				ret.add(new ArrayList<Date[]>());
-				for(Rezerwation rezerwation:mach.getRezerwation())
+				for(Rezerwation rezerwation:rez)
 					ret.get(ret.size()-1).add(new Date[]{ rezerwation.getCreateDate(),rezerwation.getReturnDate()});
-			}		
+			}
 		}
 		return ret;
 	}
@@ -127,12 +124,4 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		ArrayList<Machine> results=MachineFinder.getMachinesByStrictCriteria(em, mfc);
 		return results==null?null:results.get(0);
 	}
-	
-	public Rezerwation getRezerwationById(int id)
-	{
-		RezerwationFinderCriteria mfc=new RezerwationFinderCriteria();
-		mfc.ID=id;
-		return RezerwationFinder.getRezerwationsByStrictCriteria(em, mfc).get(0);
-	}
-	
 }

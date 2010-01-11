@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.swing.text.Utilities;
+import Utilities.*;
 
 @Entity(name="Machine")
 @Table(name="Machine")
@@ -31,6 +33,12 @@ public class Machine  implements Serializable{
 	private Integer bits;
 	private Integer ID;
 	private Boolean isBook;
+	Collection<Rezerwation> rezerwation;
+	
+	public void fixForFlex()
+	{
+		rezerwation=(Collection<Rezerwation>)(FlexToJavaConverter.convertRezerwationArray( FlexToJavaConverter.convertFromPersistentBag(rezerwation) ));
+	}
 	
 	public Boolean getIsBook() {
 		return isBook;
@@ -39,8 +47,6 @@ public class Machine  implements Serializable{
 	public void setIsBook(Boolean isBook) {
 		this.isBook = isBook;
 	}
-
-	Collection<Rezerwation> rezerwation;
 	
 	public Machine(){}
 	

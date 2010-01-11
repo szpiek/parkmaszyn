@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import Utilities.FlexToJavaConverter;
+
 @Entity
 @NamedQuery(name="getRezByUser", query="FROM Rezerwation r WHERE EMPLOYEE_FK=:userId")
 @Table(name="Rezerwation")
@@ -34,6 +36,11 @@ public class Rezerwation  implements Serializable{
 	Collection<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
+	
+	public void fixForFlex()
+	{
+		machine=(Collection<Machine>)(FlexToJavaConverter.convertMchineArray( FlexToJavaConverter.convertFromPersistentBag(machine) ));
+	}
 	
 	public Rezerwation(){}
 	
