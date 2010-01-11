@@ -60,11 +60,11 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		if(!r.getIsBook())
 		{
 			Machine[] m = r.getMachine().toArray(new Machine[1]);
-			em.persist(m[0]);
+			em.merge(m[0]);
 		}
 		try
 		{
-			em.persist(r);
+			em.merge(r);
 		}
 		catch(EntityExistsException ex)
 		{
@@ -78,7 +78,8 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	public boolean releaseRezervation(Rezerwation r) {
 		try
 		{
-			em.remove(r);
+			Rezerwation re = em.merge(r);
+			em.remove(re);
 		}
 		catch(IllegalStateException ex)
 		{
