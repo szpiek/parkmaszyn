@@ -7,6 +7,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import Utilities.FlexToJavaConverter;
+
+import flex.messaging.io.ArrayCollection;
+import flex.messaging.io.amf.ASObject;
+import flex.messaging.io.amf.translator.ASTranslator;
+
 import DataRepository.DataOperations;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
@@ -89,12 +95,52 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		if(r2.getMachine().isEmpty()) DataOperations.removeRezervation(em, r2);
 	}
 	
-	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList<Machine> machs)
+	public ArrayList<Machine> convertArrayCollection(ArrayList array){
+        ArrayList<Machine> myObjectArray = new ArrayList<Machine>();
+        ASTranslator ast = new ASTranslator();
+        Machine myObject;
+        ASObject aso;
+
+        for (int i=0;i< array.size(); i++){
+            myObject = new Machine();
+            aso = new ASObject();
+
+            aso = (ASObject) array.get(i);
+            aso.setType("EntityBeans.Machine");
+            myObject = (Machine) ast.convert(aso, Machine.class);
+            myObjectArray.add(myObject);
+        }
+        return myObjectArray;
+    }
+	
+	public ArrayList<Rezerwation> convertArrayCollectionRes(ArrayList array){
+        ArrayList<Rezerwation> myObjectArray = new ArrayList<Rezerwation>();
+        ASTranslator ast = new ASTranslator();
+        Rezerwation myObject;
+        ASObject aso;
+
+        for (int i=0;i< array.size(); i++){
+            myObject = new Rezerwation();
+            aso = new ASObject();
+
+            aso = (ASObject) array.get(i);
+            aso.setType("EntityBeans.Rezerwation");
+            myObject = (Rezerwation) ast.convert(aso, Rezerwation.class);
+            myObjectArray.add(myObject);
+        }
+        return myObjectArray;
+    }
+	
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList machs)
 	{
-		System.out.println("MACHS: "+machs.size());
 		ArrayList<ArrayList<Date[]> > ret=new ArrayList<ArrayList<Date[]> >();
-		for(Machine m:machs)
+		ArrayList<Machine> test = FlexToJavaConverter.convertMchineArray(machs);
+		for(Machine m:test)
 		{
+			ArrayList<Rezerwation> rez=convertArrayCollectionRes((ArrayList) m.getRezerwation());
+			if(rez!=null && rez.size()>0)
 			System.out.println("BY ID="+m.getID());
 			Machine mach=getById(m.getID());
 			System.out.println(mach+" "+mach.getRezerwation());
