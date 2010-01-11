@@ -95,42 +95,6 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		if(r2.getMachine().isEmpty()) DataOperations.removeRezervation(em, r2);
 	}
 	
-	public ArrayList<Machine> convertArrayCollection(ArrayList array){
-        ArrayList<Machine> myObjectArray = new ArrayList<Machine>();
-        ASTranslator ast = new ASTranslator();
-        Machine myObject;
-        ASObject aso;
-
-        for (int i=0;i< array.size(); i++){
-            myObject = new Machine();
-            aso = new ASObject();
-
-            aso = (ASObject) array.get(i);
-            aso.setType("EntityBeans.Machine");
-            myObject = (Machine) ast.convert(aso, Machine.class);
-            myObjectArray.add(myObject);
-        }
-        return myObjectArray;
-    }
-	
-	public ArrayList<Rezerwation> convertArrayCollectionRes(ArrayList array){
-        ArrayList<Rezerwation> myObjectArray = new ArrayList<Rezerwation>();
-        ASTranslator ast = new ASTranslator();
-        Rezerwation myObject;
-        ASObject aso;
-
-        for (int i=0;i< array.size(); i++){
-            myObject = new Rezerwation();
-            aso = new ASObject();
-
-            aso = (ASObject) array.get(i);
-            aso.setType("EntityBeans.Rezerwation");
-            myObject = (Rezerwation) ast.convert(aso, Rezerwation.class);
-            myObjectArray.add(myObject);
-        }
-        return myObjectArray;
-    }
-	
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList machs)
@@ -139,7 +103,7 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		ArrayList<Machine> test = FlexToJavaConverter.convertMchineArray(machs);
 		for(Machine m:test)
 		{
-			ArrayList<Rezerwation> rez=convertArrayCollectionRes((ArrayList) m.getRezerwation());
+			ArrayList<Rezerwation> rez=FlexToJavaConverter.convertRezerwationArray((ArrayList) m.getRezerwation());
 			if(rez!=null && rez.size()>0)
 			System.out.println("BY ID="+m.getID());
 			Machine mach=getById(m.getID());
