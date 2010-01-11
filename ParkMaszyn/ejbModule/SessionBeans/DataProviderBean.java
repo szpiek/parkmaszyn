@@ -94,7 +94,6 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     		DataOperations.removeEmploee(em, e);
     	for(Rezerwation r:RezerwationFinder.getAllRezerwations(em))
     		DataOperations.removeRezervation(em, r);
-    	
     	System.out.println("-==DATABASE CLEARING==- STOP");
     }
     

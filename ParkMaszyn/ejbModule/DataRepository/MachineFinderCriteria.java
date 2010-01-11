@@ -25,6 +25,7 @@ public class MachineFinderCriteria extends ISortable implements Serializable{
 	public Criteria getStrictCriteria()
 	{
 		Criteria criteria=CriteriaFactory.createCriteria("Machine");
+		if(ID!=null) criteria.add( Restrictions.eq("ID", ID ) );
 		if(os!=null) criteria.add( Restrictions.eq("os", os ) );
 		if(architecture!=null) criteria.add( Restrictions.eq("architecture", architecture.toString()) );
 		if(processor!=null) criteria.add( Restrictions.eq("processor", processor.toString()) );

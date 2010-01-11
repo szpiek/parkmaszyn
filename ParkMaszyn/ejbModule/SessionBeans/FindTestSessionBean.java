@@ -48,5 +48,5 @@ public class FindTestSessionBean implements FindTestSessionBeanRemote, FindTestS
     	if(strict) return MachineFinder.getMachinesByStrictCriteria(em, mfc);
     	return null;
     }
-
+    
 }

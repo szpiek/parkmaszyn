@@ -60,41 +60,69 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	
 	public void persistMachine(Machine mach)
 	{
-		MachineFinderCriteria mfc=new MachineFinderCriteria();
-		mfc.ID=mach.getID();
-		Machine m2=MachineFinder.getMachinesByStrictCriteria(em, mfc).get(0);
+		Machine m2=getById(mach.getID());
+		if(m2==null) m2=new Machine();
 		m2.copyFromMachine(mach);
 		em.persist(m2);
 	}
 	
 	public void removeMachine(Machine mach)
 	{
-		DataOperations.removeMachine(em, mach);
+		Machine machineToRemove=getById(mach.getID());
+		DataOperations.removeMachine(em, machineToRemove);
 	}
 	
 	public void releaseMachine(Machine mach, Rezerwation res)
 	{
-		RezerwationFinderCriteria mfc=new RezerwationFinderCriteria();
-		mfc.ID=mach.getID();
-		Rezerwation r2=RezerwationFinder.getRezerwationsByStrictCriteria(em, mfc).get(0);
-		r2.getMachine().remove(mach);
-		em.persist(r2);
+		Rezerwation r2=getRezerwationById(res.getID());
+		Machine toRem=null;
+		for(Machine m:r2.getMachine())
+		{
+				if(m.getID().equals(mach.getID()))
+				{
+					toRem=m;
+					break;
+				}
+		}
+		toRem.getRezerwation().remove(r2);
+		r2.getMachine().remove(toRem);
+		if(r2.getMachine().isEmpty()) DataOperations.removeRezervation(em, r2);
 	}
 	
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList<Machine> machs)
 	{
+		System.out.println("MACHS: "+machs.size());
 		ArrayList<ArrayList<Date[]> > ret=new ArrayList<ArrayList<Date[]> >();
-		for(Machine mach:machs)
+		for(Machine m:machs)
 		{
-			ArrayList<Rezerwation> rez=(ArrayList<Rezerwation>)mach.getRezerwation();
-			if(rez!=null && rez.size()>0)
+			System.out.println("BY ID="+m.getID());
+			Machine mach=getById(m.getID());
+			System.out.println(mach+" "+mach.getRezerwation());
+			if(mach.getRezerwation()!=null && mach.getRezerwation().size()>0)
 			{
+				System.out.println("ADDING: "+mach.getRezerwation().size()+" RESERWATIONS");
 				ret.add(new ArrayList<Date[]>());
-				for(Rezerwation rezerwation:rez)
+				for(Rezerwation rezerwation:mach.getRezerwation())
 					ret.get(ret.size()-1).add(new Date[]{ rezerwation.getCreateDate(),rezerwation.getReturnDate()});
 			}		
 		}
 		return ret;
+	}
+	
+	public Machine getById(Integer id)
+	{
+		if(id==null) return null;
+		MachineFinderCriteria mfc=new MachineFinderCriteria();
+		mfc.ID=id;
+		ArrayList<Machine> results=MachineFinder.getMachinesByStrictCriteria(em, mfc);
+		return results==null?null:results.get(0);
+	}
+	
+	public Rezerwation getRezerwationById(int id)
+	{
+		RezerwationFinderCriteria mfc=new RezerwationFinderCriteria();
+		mfc.ID=id;
+		return RezerwationFinder.getRezerwationsByStrictCriteria(em, mfc).get(0);
 	}
 	
 }
