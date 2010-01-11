@@ -16,6 +16,6 @@ public interface MachineSessionBeanRemote {
 	public void persistMachine(Machine mach);
 	public void removeMachine(Machine mach);
 	public void releaseMachine(Machine mach, Rezerwation res);
-	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList<Machine> machs);
+	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList machs);
 	public ArrayList<Machine> getByCriteria(MachineFinderCriteria mfc);
 }
