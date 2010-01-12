@@ -30,7 +30,21 @@
     		<source>UserSessionBean/remote</source>
     	</properties>
     </destination>
-	
+    
+    <destination id="MachineSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>MachineSessionBean/remote</source>
+    	</properties>
+    </destination>
+    
+    <destination id="RezervationSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>RezervationSessionBean/remote</source>
+    	</properties>
+    </destination>
+    
 	<destination id="SessionHandler">
 		<properties>
 			<source>com.eBusiness.SessionHandler</source>
