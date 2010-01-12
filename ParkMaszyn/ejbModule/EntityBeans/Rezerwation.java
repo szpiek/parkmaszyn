@@ -36,6 +36,7 @@ public class Rezerwation  implements Serializable{
 	Collection<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
+	String need;
 	
 	public void fixForFlex()
 	{
@@ -103,6 +104,14 @@ public class Rezerwation  implements Serializable{
 	}
 	public void setIsBook(Boolean isBook) {
 		this.isBook = isBook;
+	}
+	public void setNeed(String n)
+	{
+		this.need = n;
+	}
+	public String getNeed()
+	{
+		return this.need;
 	}
 	
     @Override
