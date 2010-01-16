@@ -161,8 +161,9 @@ public class TestClient1 {
 			Context context = new InitialContext(properties);
 			clearTest(context);
 			addTest(context);
+			findMachineTest(context);
 			MachineTest(context);
-			//findMachineTest(context);
+			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
