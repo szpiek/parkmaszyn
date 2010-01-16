@@ -15,32 +15,29 @@ public class DataOperations {
 	
 	public static void addRezerwationMachine(EntityManager em,Rezerwation rez, Machine mach)
 	{
+		System.out.println("ADDING "+rez.getID()+" MACH: "+mach.getID());
 		rez.getMachine().add(mach);
-		mach.getRezerwation().add(rez);
 	}
 	
 	public static void removeMachine(EntityManager em, Machine mach)
 	{
-		for(Rezerwation rez:mach.getRezerwation())
+		em.merge(mach);
+		em.remove(mach);
+		for( Rezerwation rez:RezerwationFinder.getRezerwationsByMachine(em, mach))
 		{
 			rez.getMachine().remove(mach);
-			if(rez.getMachine().isEmpty())
-				removeRezervation(em, rez);
 		}
-		em.remove(mach);
 	}
 	
 	public static void removeRezervation(EntityManager em, Rezerwation rez)
 	{
-				for(Machine mach:rez.getMachine())
-					mach.getRezerwation().remove(rez);
+				em.merge(rez);
 				em.remove(rez);
 	}
 	
 	public static void removeEmploee(EntityManager em, Emploee emp)
 	{
-		for(Rezerwation rez:emp.getRezerwation())
-			removeRezervation(em, rez);
+		em.merge(emp);
 		em.remove(emp);
 	}
 }

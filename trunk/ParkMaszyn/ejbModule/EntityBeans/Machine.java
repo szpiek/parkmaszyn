@@ -33,12 +33,8 @@ public class Machine  implements Serializable{
 	private Integer bits;
 	private Integer ID;
 	private Boolean isBook;
-	Collection<Rezerwation> rezerwation;
 	
-	public void fixForFlex()
-	{
-		rezerwation=(Collection<Rezerwation>)(FlexToJavaConverter.convertRezerwationArray( FlexToJavaConverter.convertFromPersistentBag(rezerwation) ));
-	}
+
 	
 	public Boolean getIsBook() {
 		return isBook;
@@ -79,24 +75,7 @@ public class Machine  implements Serializable{
 	public String getOs() {
 		return os;
 	}
-	
-	@ManyToMany(
-        targetEntity=Rezerwation.class,
-        fetch=FetchType.EAGER,
-        cascade={}
-    )
-    @JoinTable(
-        name="MACHINE_REZERWATION",
-        joinColumns=@JoinColumn(name="MACH_ID"),
-        inverseJoinColumns=@JoinColumn(name="REZ_ID")
-    )
-	public Collection<Rezerwation> getRezerwation() {
-		if(rezerwation==null) rezerwation=new ArrayList<Rezerwation>();
-		return rezerwation;
-	}
-	public void setRezerwation(Collection<Rezerwation> rezerwation) {
-		this.rezerwation = rezerwation;
-	}
+
 	public void setOs(String os) {
 		this.os = os;
 	}
