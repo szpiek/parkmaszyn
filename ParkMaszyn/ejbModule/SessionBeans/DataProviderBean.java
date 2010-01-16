@@ -35,9 +35,9 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda","123",false));
     	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Yoda","123",false));
     	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Yoda","123",false));
-    	emploees.add(new Emploee("Jan","Rokita","szpieg@gmail.com","Development",234,"Yoda","123",false));
-    	emploees.add(new Emploee("Romuad","Wit","reset@gmail.com","Development",567,"Yoda","123",false));
-    	emploees.add(new Emploee("El¿bieta","Richter-W¹s","szpieg@gmail.com","Development",890,"Yoda","123",false));
+    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Yoda","123",false));
+    	emploees.add(new Emploee("Romuad","Wit","wit@gmail.com","Development",567,"Yoda","123",false));
+    	emploees.add(new Emploee("El¿bieta","Richter-W¹s","was@gmail.com","Development",890,"Yoda","123",false));
     	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Yoda","123",false));
     	for(Emploee emp:emploees) em.persist(emp);
     	

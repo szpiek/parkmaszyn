@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,13 +15,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.IndexColumn;
 
 import Utilities.FlexToJavaConverter;
 
@@ -33,14 +39,14 @@ public class Rezerwation  implements Serializable{
 	Integer ID;
 	Date createDate;
 	Date returnDate;
-	Collection<Machine> machine;
+	Set<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
 	String need;
 	
 	public void fixForFlex()
 	{
-		machine=(Collection<Machine>)(FlexToJavaConverter.convertMchineArray( FlexToJavaConverter.convertFromPersistentBag(machine) ));
+		//machine=(Collection<Machine>)(FlexToJavaConverter.convertMchineArray( FlexToJavaConverter.convertFromPersistentBag(machine) ));
 	}
 	
 	public Rezerwation(){}
@@ -64,18 +70,20 @@ public class Rezerwation  implements Serializable{
 	public void setEmploee(Emploee emploee) {
 		this.emploee = emploee;
 	}
-	@Fetch(FetchMode.SUBSELECT)
+	
 	@ManyToMany(
-	        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-	        fetch=FetchType.EAGER,
-	        mappedBy = "rezerwation",
-	        targetEntity = Machine.class
+	        fetch=FetchType.EAGER
 	    )
-	public Collection<Machine> getMachine() {
-		if(machine==null) machine=new ArrayList<Machine>();
+	@JoinTable(
+			name="REZ_MACH",
+			joinColumns=@JoinColumn(name="REZ_ID"),
+			inverseJoinColumns=@JoinColumn(name="MACH_ID")
+	)
+	public Set<Machine> getMachine() {
+		if(machine==null) machine=new HashSet<Machine>();
 		return machine;
 	}
-	public void setMachine(Collection<Machine> machine) {
+	public void setMachine(Set<Machine> machine) {
 		this.machine = machine;
 	}
 

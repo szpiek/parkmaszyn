@@ -12,6 +12,7 @@ import DataRepository.EmploeeFinder;
 import DataRepository.EmploeeFinderCriteria;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
+import DataRepository.RezerwationFinder;
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
@@ -59,8 +60,6 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	rez.getMachine().add( MachineFinder.getAllMachines(em).get(1) );
     	em.persist(rez);
     	
-    	MachineFinder.getAllMachines(em).get(0).getRezerwation().add(rez);
-    	MachineFinder.getAllMachines(em).get(1).getRezerwation().add(rez);
     	em.persist(MachineFinder.getAllMachines(em).get(0));
     	em.persist(MachineFinder.getAllMachines(em).get(1));
     	
@@ -77,7 +76,7 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	for(Machine mach:MachineFinder.getAllMachines(em))
     		{
     			System.out.println(mach);
-    			for(Rezerwation rezerw:mach.getRezerwation())
+    			for(Rezerwation rezerw:RezerwationFinder.getRezerwationsByMachine(em, mach))
     			{
     				System.out.println(rezerw);
     				System.out.println(rezerw.getEmploee());

@@ -22,4 +22,15 @@ public class RezerwationFinder {
 		Query query = criteria.getStrictCriteria().prepareQuery(em);
 		return (ArrayList<Rezerwation>)query.getResultList();
 	}
+	
+	public static ArrayList<Rezerwation> getRezerwationsByMachine(EntityManager em, Machine m)
+	{
+		ArrayList<Rezerwation> ret=new ArrayList<Rezerwation>();
+		ArrayList<Rezerwation> allMachines=getAllRezerwations(em);
+		for(Rezerwation r:allMachines)
+			if(r.getMachine().contains(m))
+				ret.add(r);
+		return ret;
+	}
+	
 }

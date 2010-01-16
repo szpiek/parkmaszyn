@@ -66,20 +66,17 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	
 	public void persistMachine(Machine mach)
 	{
-		mach.fixForFlex();
 		mach=em.merge(mach);
 	}
 	
 	public void removeMachine(Machine mach)
 	{
-		mach.fixForFlex();
 		mach=em.merge(mach);
 		DataOperations.removeMachine(em, mach);
 	}
 	
 	public void releaseMachine(Machine mach, Rezerwation res)
 	{
-		mach.fixForFlex();
 		res.fixForFlex();
 		res=em.merge(res);
 		Machine toRem=null;
@@ -91,7 +88,6 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 					break;
 				}
 		}
-		toRem.getRezerwation().remove(res);
 		res.getMachine().remove(toRem);
 		if(res.getMachine().isEmpty()) DataOperations.removeRezervation(em, res);
 	}
@@ -105,7 +101,7 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		for(Machine m:test)
 		{
 			m=em.merge(m);
-			ArrayList<Rezerwation> rez=FlexToJavaConverter.convertRezerwationArray( FlexToJavaConverter.convertFromPersistentBag(m.getRezerwation()) );
+			ArrayList<Rezerwation> rez = RezerwationFinder.getRezerwationsByMachine(em, m) ;
 			if(rez!=null && rez.size()>0)
 			{
 				ret.add(new ArrayList<Date[]>());
