@@ -3,6 +3,8 @@ package EntityBeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.swing.text.Utilities;
@@ -23,18 +26,14 @@ public class Machine  implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 660681201810885116L;
-	private String os;
-	private String architecture;
-	private String processor;
 	private String IP;
 	private String login;
 	private String password;
 	private Integer memory;
-	private Integer bits;
 	private Integer ID;
 	private Boolean isBook;
-	
-
+	private Processor processor;
+	private OS os;
 	
 	public Boolean getIsBook() {
 		return isBook;
@@ -49,49 +48,53 @@ public class Machine  implements Serializable{
 	public void copyFromMachine(Machine m)
 	{
 		os=m.os;
-		architecture=m.architecture;
 		processor=m.processor;
 		IP=m.IP;
 		login=m.login;
 		password=m.password;
 		memory=m.memory;
-		bits=m.bits;
 		isBook=m.isBook;
 	}
 	
+	@ManyToOne(
+			fetch=FetchType.EAGER,
+	        cascade = {CascadeType.MERGE},
+	        targetEntity = Processor.class
+	    )
+	@JoinColumn(name="CPU_FK")
+	public Processor getProcessor() {
+		return processor;
+	}
+
+	
+	public void setProcessor(Processor processor) {
+		this.processor = processor;
+	}
+
+	@ManyToOne(
+			fetch=FetchType.EAGER,
+	        cascade = {CascadeType.MERGE},
+	        targetEntity = OS.class
+	    )
+	@JoinColumn(name="OS_FK")
+	public OS getOs() {
+		return os;
+	}
+
+	public void setOs(OS os) {
+		this.os = os;
+	}
+
 	public Machine(String system,String arch,String proc,String ipNumber ,String log, String pass, Integer mem, Integer nbits, boolean book)
 	{
-		os=system;
-		architecture=arch;
-		processor=proc;
 		IP=ipNumber;
 		login=log;
 		password=pass;
 		memory=mem;
-		bits=nbits;
 		isBook=book;
 	}
 	
-	public String getOs() {
-		return os;
-	}
-
-	public void setOs(String os) {
-		this.os = os;
-	}
-	public String getArchitecture() {
-		return architecture;
-	}
-	public void setArchitecture(String architecture) {
-		this.architecture = architecture;
-	}
-	public String getProcessor() {
-		return processor;
-	}
-	public void setProcessor(String processor) {
-		this.processor = processor;
-	}
-	public String getIP() {
+		public String getIP() {
 		return IP;
 	}
 	public void setIP(String iP) {
@@ -115,12 +118,7 @@ public class Machine  implements Serializable{
 	public void setMemory(Integer memory) {
 		this.memory = memory;
 	}
-	public Integer getBits() {
-		return bits;
-	}
-	public void setBits(Integer bits) {
-		this.bits = bits;
-	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer getID() {
