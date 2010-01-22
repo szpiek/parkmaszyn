@@ -86,8 +86,6 @@ public class TestClient1 {
 		mfc.IP="123";
 		Machine m=dpbr.getByCriteria(mfc).get(0);
 		System.out.println(m);
-		m.setBits(8);
-		dpbr.persistMachine(m);
 		m.setLogin("LONGIN");
 		dpbr.persistMachine(m);
 		System.out.println(dpbr.getAllMachines().get( dpbr.getAllMachines().size()-1 ) );
@@ -117,7 +115,7 @@ public class TestClient1 {
 					}
 		}
 		mfc=new MachineFinderCriteria();
-		mfc.os="Mac OS Coconut";
+		mfc.login="brzeczyszczykiewicz4";
 		Machine mach=ftsbr.findMachine(mfc, true).get(0);
 		
 		System.out.println("RELEASE: "+mach+" FROM REZERWATION: "+rezerw);
