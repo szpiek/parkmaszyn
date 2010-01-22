@@ -41,6 +41,10 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Yoda","123",false));
     	for(Emploee emp:emploees) em.persist(emp);
     	
+    	Processor proc=new Processor("AMD64X2",64,"x86-64",1700,2);
+    	OS os=new OS("Windows 7","6.1","12",64);
+    	em.persist(proc);
+    	em.persist(os);
     	ArrayList<Machine> machines=new ArrayList<Machine>();
     	machines.add(new Machine("Windows 7","x86-64","Core 2 Duo 2.8 Ghz","192.168.140.1","brzeczyszczykiewicz1","maslo",2048,64,true));
     	machines.add(new Machine("Fedora Core 12","x86-64","Core 2 Quad 3.6 Ghz","192.168.140.2","brzeczyszczykiewicz2","maslo",2048,64,true));
@@ -52,7 +56,11 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	machines.add(new Machine("Mac OS Panther","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz7","maslo",4096,32,false));
     	machines.add(new Machine("Mac OS Coconut","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz8","maslo",4096,32,false));
     	
-    	for(Machine mach:machines) em.persist(mach);
+    	for(Machine mach:machines){
+    		mach.setProcessor(proc);
+    		mach.setOs(os);
+    		em.persist(mach);
+    	}
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();
     	

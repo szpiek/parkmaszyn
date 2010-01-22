@@ -96,8 +96,7 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	}
     	
     	MachineFinderCriteria mfc=new MachineFinderCriteria();
-    	mfc.os="Mac OS";
-    	
+    	mfc.login="brzeczyszczykiewicz4";   	
     	
     	
     	for(Machine mach:MachineFinder.getMachinesByStrictCriteria(em, mfc))
