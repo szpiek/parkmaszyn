@@ -1,16 +1,14 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import DataRepository.EmploeeFinder;
 import DataRepository.EmploeeFinderCriteria;
 import DataRepository.ISortable;
-import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
