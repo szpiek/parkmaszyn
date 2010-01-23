@@ -1,7 +1,8 @@
 package SessionBeans;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.sql.Date;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -64,11 +65,11 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();
     	
-    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
-    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
-    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
-    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
-    	rezerwations.add(new Rezerwation(new Date(), new Date(), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
     	
     	for(Rezerwation rez:rezerwations) em.persist(rez);
     	
