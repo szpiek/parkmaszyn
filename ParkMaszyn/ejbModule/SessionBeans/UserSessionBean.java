@@ -1,13 +1,21 @@
 package SessionBeans;
 
+import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.annotation.Resource;
+import javax.ejb.EJBException;
+import javax.ejb.SessionContext;
+import javax.ejb.SessionSynchronization;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
 import EntityBeans.Emploee;
 import Utilities.PasswordGenerator;
@@ -16,12 +24,18 @@ import Utilities.UserInfo;
 /**
  * Session Bean implementation class UserSessionBean
  */
-@Stateless
-public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLocal {
+@Stateful
+@TransactionManagement(TransactionManagementType.BEAN) 
+public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLocal, SessionSynchronization {
 	
 	@PersistenceContext
 	EntityManager em;	
+	
+	@Resource
+	SessionContext sc;
 
+	@Resource(mappedName="java:/mySQLDS") DataSource dataSource;
+	
 	public UserSessionBean() {}
     
     @SuppressWarnings("unchecked")
@@ -86,5 +100,113 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 		}
 		return true;
 	}
+
+	@Override
+	public void afterBegin() throws EJBException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterCompletion(boolean arg0) throws EJBException,
+			RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beforeCompletion() throws EJBException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	@Override
+//	public void pies(boolean test) {
+//
+//		if(test)
+//		{
+//			UserTransaction et = sc.getUserTransaction();
+//			try {
+//				et.begin();
+//			} catch (NotSupportedException e2) {
+//				// TODO Auto-generated catch block
+//				e2.printStackTrace();
+//			} catch (SystemException e2) {
+//				// TODO Auto-generated catch block
+//				e2.printStackTrace();
+//			}
+//			Emploee e = em.find(Emploee.class, 11);
+//			e.setFirstName("Buc");
+//			em.persist(e);
+//			em.flush();
+//			System.out.println(e.getFirstName());
+//			try {
+//				Thread.sleep(20000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			if(test)
+//				try {
+//					System.out.println("rollback");
+//					et.commit();
+//					//et.rollback();
+//				} catch (IllegalStateException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				} catch (SecurityException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				} catch (SystemException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				} catch (HeuristicRollbackException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				} catch (RollbackException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				} catch (HeuristicMixedException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				}
+//		}
+//		else
+//		{
+//			Connection con = null;
+//			try {
+//				con = dataSource.getConnection();
+//			} catch (SQLException e2) {
+//				// TODO Auto-generated catch block
+//				e2.printStackTrace();
+//			}
+////			try {
+////				con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+////			} catch (SQLException e2) {
+////				// TODO Auto-generated catch block
+////				e2.printStackTrace();
+////			}
+//			Emploee e = em.find(Emploee.class, 11);
+//			try {
+//				PreparedStatement ps = con.prepareStatement("SELECT * FROM emploee where ID=11");
+//				ResultSet rs = ps.executeQuery();
+//				while(rs.next())
+//				{
+//					System.out.println(rs.getString("firstName"));
+//				}
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			
+//			System.out.println(e.getFirstName());
+//			try {
+//				con.close();
+//			} catch (SQLException e2) {
+//				// TODO Auto-generated catch block
+//				e2.printStackTrace();
+//			}
+////		} 
+//	}
 
 }
