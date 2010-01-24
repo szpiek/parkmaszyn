@@ -121,4 +121,9 @@ public class MailResender {
             return false;
         }
     }
+
+	public static boolean sendReservationRejectInformation(Rezerwation r) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
