@@ -1,25 +1,19 @@
 package SessionBeans;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import Utilities.FlexToJavaConverter;
-
-import flex.messaging.io.ArrayCollection;
-import flex.messaging.io.amf.ASObject;
-import flex.messaging.io.amf.translator.ASTranslator;
-
 import DataRepository.DataOperations;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
 import DataRepository.RezerwationFinder;
-import DataRepository.RezerwationFinderCriteria;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
+import Utilities.FlexToJavaConverter;
 
 /**
  * Session Bean implementation class MachineSessionBean
