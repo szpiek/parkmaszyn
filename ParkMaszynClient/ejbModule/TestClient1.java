@@ -16,6 +16,7 @@ import EntityBeans.Rezerwation;
 import SessionBeans.DataProviderBeanRemote;
 import SessionBeans.FindTestSessionBeanRemote;
 import SessionBeans.MachineSessionBeanRemote;
+import SessionBeans.TestSessionBeanRemote;
 
 
 public class TestClient1 {
@@ -53,6 +54,12 @@ public class TestClient1 {
 		ArrayList<Machine> emploees=dpbr.findMachine(mfc, true);
 		for(Machine emp:emploees)
 			System.out.println(emp);
+	}
+	
+	public static void mailTest(Context context)throws NamingException
+	{
+		TestSessionBeanRemote dpbr=(TestSessionBeanRemote) context.lookup("TestSessionBean/remote");
+		dpbr.test();
 	}
 	
 	public static void MachineTest(Context context) throws NamingException
@@ -155,10 +162,11 @@ public class TestClient1 {
 		properties.put("java.naming.provider.url","localhost:1099");
 		try {
 			Context context = new InitialContext(properties);
-			clearTest(context);
-			addTest(context);
-			findMachineTest(context);
-			MachineTest(context);
+			//clearTest(context);
+			//addTest(context);
+			//findMachineTest(context);
+			//MachineTest(context);
+			mailTest(context);
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
