@@ -2,17 +2,27 @@ package SessionBeans;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
@@ -21,14 +31,16 @@ import EntityBeans.Rezerwation;
 /**
  * Session Bean implementation class RezervationSessionBean
  */
-@Stateless
+@Stateful
+@TransactionManagement(TransactionManagementType.BEAN) 
 public class RezervationSessionBean implements RezervationSessionBeanRemote, RezervationSessionBeanLocal {
 
 	@PersistenceContext
 	EntityManager em;	
 	
 	@Resource(mappedName="java:/mySQLDS") DataSource dataSource;
-
+	@Resource
+	SessionContext sc;
 	
     public RezervationSessionBean() {}
 
@@ -84,10 +96,11 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	
 	@Override
 	public boolean persist(Rezerwation r, int eId) {
-		
+		UserTransaction ut = sc.getUserTransaction();
 		Connection con = null;
 		r.setID(null);
-		r.setEmploee(em.find(Emploee.class, eId));
+		Emploee e2 = em.find(Emploee.class, eId);
+		r.setEmploee(e2);
 		try {
 			con = dataSource.getConnection();
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -99,39 +112,55 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 					ids += ",";
 				ids += m.getID();
 			}
-			PreparedStatement ps = con.prepareStatement("SELECT createDate as c, returnDate as r, re.id "+
-														"FROM rez_mach r "+
-														"INNER JOIN rezerwation re on re.id=r.rez_id " +
-														"WHERE MACH_ID in ("+ids+") AND " +
-														"((c<? AND ?<e) OR (?<c AND ?<e) OR (c<? AND e<?) OR (?<c and e<?)) " +
-														"GROUP by id");
-			ps.setDate(1, r.getCreateDate());
-			ps.setDate(2, r.getReturnDate());
-			ps.setDate(3, r.getCreateDate());
-			ps.setDate(4, r.getReturnDate());
-			ps.setDate(5, r.getCreateDate());
-			ps.setDate(6, r.getReturnDate());
-			ps.setDate(7, r.getCreateDate());
-			ps.setDate(8, r.getReturnDate());
-			if(ps.execute())
+			if(getRezerwationCheck(con, r, ids, false))
 			{
 				System.out.println("Some machines are already booked");
+				con.close();
 				return false;
 			}
+			con.close();
+			ut.begin();
+			r = em.merge(r);
+			con = dataSource.getConnection();
+			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+			if(getRezerwationCheck(con, r, ids, false))
+			{
+				System.out.println("Some machines are already booked (End)");
+				ut.rollback();
+				con.close();
+				return false;
+			}
+			ut.commit();
+			con.close();
+			return true;
+
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace(); 
+		} catch (EntityExistsException ex)	{
+			System.out.println(ex.getMessage());
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace(); 
+		} catch (NotSupportedException e) {
+			e.printStackTrace();
+		} catch (SystemException e) {
+			e.printStackTrace();
+		} catch (RollbackException e) {
+			e.printStackTrace();
+		} catch (HeuristicMixedException e) {
+			e.printStackTrace();
+		} catch (HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		try
-		{
-			em.merge(r);
-		}
-		catch(EntityExistsException ex)
-		{
-			System.out.println(ex.getMessage());
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -152,6 +181,33 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean getRezerwationCheck(Connection c, Rezerwation r, String ids, boolean isSecond) throws SQLException
+	{
+		PreparedStatement ps;
+		ps = c.prepareStatement("SELECT createDate as c, returnDate as r, re.id "+
+				"FROM rez_mach r "+
+				"INNER JOIN rezerwation re on re.id=r.rez_id " +
+				"WHERE MACH_ID in ("+ids+") AND " +
+				"((createDate<? AND ?<returnDate) OR (?<createDate AND ?<returnDate) OR " +
+				"(createDate<? AND ?<returnDate AND returnDate<?) OR (?<createDate and returnDate<?) OR (?=createDate AND ?=returnDate)) " +
+				(isSecond?" AND id!="+r.getID()+" ":"")+
+				" GROUP by id");
+		ps.setDate(1, r.getCreateDate());
+		ps.setDate(2, r.getReturnDate());
+		ps.setDate(3, r.getCreateDate());
+		ps.setDate(4, r.getReturnDate());
+		ps.setDate(5, r.getCreateDate());
+		ps.setDate(6, r.getCreateDate());
+		ps.setDate(7, r.getReturnDate());
+		ps.setDate(8, r.getCreateDate());
+		ps.setDate(9, r.getReturnDate());	
+		ps.setDate(10, r.getCreateDate());
+		ps.setDate(11, r.getReturnDate());	
+		ps.execute();
+		ResultSet rs = ps.getResultSet();
+		return rs.next();
 	}
 
 }
