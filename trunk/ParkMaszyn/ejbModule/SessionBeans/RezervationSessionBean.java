@@ -24,6 +24,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import Utilities.MailResender;
+
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
@@ -221,6 +223,76 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		ps.execute();
 		ResultSet rs = ps.getResultSet();
 		return rs.next();
+	}
+
+	@Override
+	public boolean accept(int rId) {
+		Rezerwation r = em.find(Rezerwation.class, rId);
+		r.setAccepted(1);
+		try
+		{
+			em.merge(r);
+		}
+		catch(EntityExistsException ex)
+		{
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return MailResender.sendRezervationAcceptInformation(r);
+	}
+
+	@Override
+	public boolean acceptRequest(int rId, String login, String password,
+			String ip) {
+		Rezerwation r = em.find(Rezerwation.class, rId);
+		HashSet<Machine> machines = new HashSet<Machine>();
+		for(Machine m : r.getMachine())
+		{
+			m.setIP(ip);
+			m.setLogin(login);
+			m.setPassword(password);
+			machines.add(m);
+			break;
+		}
+		r.setMachine(machines);
+		r.setIsBook(true);
+		r.setAccepted(1);
+		try
+		{
+			em.merge(r);
+		}
+		catch(EntityExistsException ex)
+		{
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return MailResender.sendRezervationAcceptInformation(r);
 	}
 
 }
