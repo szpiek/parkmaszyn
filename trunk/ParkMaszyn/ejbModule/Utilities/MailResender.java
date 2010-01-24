@@ -66,7 +66,7 @@ public class MailResender {
 	public static boolean sendToOneMessage(String message,String title,String recipient) {
 		InternetAddress[] addresses=new InternetAddress[1];
 		try {
-			addresses[1]=new InternetAddress(recipient);
+			addresses[0]=new InternetAddress(recipient);
 			return sendMessage(message,title,addresses);
 		} catch (AddressException e) {
 			e.printStackTrace();
@@ -117,6 +117,7 @@ public class MailResender {
             Transport.send(mess);
             return true;
         } catch (Exception ex) {
+        	ex.printStackTrace();
             return false;
         }
     }
