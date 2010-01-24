@@ -5,9 +5,10 @@ import java.io.Serializable;
 import EntityBeans.Emploee;
 
 public class UserInfo implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
-	private Integer id = null;
-	private boolean admin = false;
+    Integer id;
+    boolean admin;
 	
 	public UserInfo()
 	{
@@ -23,14 +24,22 @@ public class UserInfo implements Serializable{
 		this.id = id;
 		this.admin = ad;
 	}
-	
-	public Integer getId()
-	{
-		return this.id;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	
-	public boolean isAdmin()
-	{
-		return this.admin;
-	}
+
 }
