@@ -47,6 +47,7 @@ public class MDBTopic implements MessageListener {
 	        destination = getJmsDestination();
 	        messageProducer = session.createProducer(destination);
 	        message = session.createTextMessage("Wyslalem wiadomosc!!!");
+	        message.setIntProperty("user", 1);
 	        messageProducer.send(message);
 	        System.out.println("Message sent");
 	        messageProducer.close();
