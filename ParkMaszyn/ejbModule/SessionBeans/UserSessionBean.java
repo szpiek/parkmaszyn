@@ -5,9 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,8 +19,7 @@ import Utilities.UserInfo;
 /**
  * Session Bean implementation class UserSessionBean
  */
-@Stateful
-@TransactionManagement(TransactionManagementType.BEAN) 
+@Stateless
 public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLocal {
 	
 	@PersistenceContext
