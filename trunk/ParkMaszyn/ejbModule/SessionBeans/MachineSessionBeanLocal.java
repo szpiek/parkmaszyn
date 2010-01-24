@@ -13,7 +13,7 @@ public interface MachineSessionBeanLocal {
 	public ArrayList<Machine> getAllMachines();
 	public ArrayList<Machine> getBookableMachines();
 	public ArrayList<Machine> getUnbookableMachines();
-	public void persistMachine(Machine mach);
+	public boolean persistMachine(Machine mach);
 	public void removeMachine(Machine mach);
 	public void releaseMachine(Machine mach, Rezerwation res);
 	@SuppressWarnings("unchecked")

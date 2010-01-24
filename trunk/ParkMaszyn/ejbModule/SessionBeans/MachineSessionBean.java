@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -58,9 +59,31 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		return MachineFinder.getMachinesByStrictCriteria(em, mfc);
 	}
 	
-	public void persistMachine(Machine mach)
+	public boolean persistMachine(Machine mach)
 	{
-		mach=em.merge(mach);
+		try
+		{
+			mach=em.merge(mach);
+		}
+		catch(EntityExistsException ex)
+		{
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return false;
 	}
 	
 	public void removeMachine(Machine mach)
