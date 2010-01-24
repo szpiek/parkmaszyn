@@ -18,10 +18,28 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import EntityBeans.Emploee;
+import EntityBeans.Machine;
+import EntityBeans.Rezerwation;
 import SessionBeans.UserSessionBeanLocal;
 
 public class MailResender {
 
+	
+	public static boolean sendRezervationAcceptInformation(Rezerwation rez) {
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a zaakceptowana.";
+		message+="\nOto dane dostêpu do poszczególnych maszyn:";
+		String subject="Potwierdzenie akceptacji zamówienia maszyn";
+		for(Machine mach:rez.getMachine())
+		{
+			message+="\n\nProcesor: "+mach.getProcessor().getName()+" Bitów: "+mach.getProcessor().getBits()+ " Mhz: "+mach.getProcessor().getClock();
+			message+="\nPamiêæ: "+mach.getMemory();
+			message+="\nSystem: "+mach.getOs().getName()+" Bitów:"+mach.getOs().getBits()+" Version: "+mach.getOs().getVersion()+" Patch:"+mach.getOs().getPatch();
+			message+="\nLogin: "+mach.getLogin();
+			message+="\nHas³o: "+mach.getPassword();
+			message+="\nIP: "+mach.getIP();
+		}
+		return sendToOneMessage(message,subject,rez.getEmploee().getEmail());
+	}
 	
 	public static boolean sendToAllMessage(String message,String title) {
 		Properties properties = new Properties();
