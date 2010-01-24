@@ -71,6 +71,7 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		hashSet.add(machine);
 		r.setMachine(hashSet);	
 		r.setID(null);
+		r.setIsBook(false);
 		r.setEmploee(em.find(Emploee.class, eId));
 		try
 		{
@@ -116,7 +117,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		UserTransaction ut = sc.getUserTransaction();
 		Connection con = null;
 		if(!modify)
+		{
 			r.setID(null);
+			r.setIsBook(true);
+		}
 		Emploee e2 = em.find(Emploee.class, eId);
 		r.setEmploee(e2);
 		try {
