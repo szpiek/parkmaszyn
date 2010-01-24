@@ -64,6 +64,21 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
     }
 
 	@Override
+	public boolean edit(Emploee e) {
+		try
+		{
+			em.merge(e);
+		}
+		catch(EntityExistsException ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
+	}
+    
+    
+	@Override
 	public boolean persist(Emploee e) {
 		try
 		{
