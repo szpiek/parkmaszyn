@@ -3,7 +3,9 @@ package SessionBeans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -48,7 +50,11 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	public boolean request(Rezerwation r, int eId)
 	{
 		Machine[] m = r.getMachine().toArray(new Machine[1]);
-		em.merge(m[0]);		
+		m[0].setID(null);
+		Machine machine = em.merge(m[0]);	
+		Set<Machine> hashSet = new HashSet<Machine>();
+		hashSet.add(machine);
+		r.setMachine(hashSet);	
 		r.setID(null);
 		r.setEmploee(em.find(Emploee.class, eId));
 		try
@@ -57,7 +63,20 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		}
 		catch(EntityExistsException ex)
 		{
+			ex.printStackTrace();
 			System.out.println(ex.getMessage());
+			return false;
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -65,6 +84,7 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	
 	@Override
 	public boolean persist(Rezerwation r, int eId) {
+		
 		Connection con = null;
 		r.setID(null);
 		r.setEmploee(em.find(Emploee.class, eId));
