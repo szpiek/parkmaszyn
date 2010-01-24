@@ -26,7 +26,7 @@ import Utilities.UserInfo;
  */
 @Stateful
 @TransactionManagement(TransactionManagementType.BEAN) 
-public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLocal, SessionSynchronization {
+public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLocal {
 	
 	@PersistenceContext
 	EntityManager em;	
@@ -114,25 +114,6 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public void afterBegin() throws EJBException, RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void afterCompletion(boolean arg0) throws EJBException,
-			RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void beforeCompletion() throws EJBException, RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
