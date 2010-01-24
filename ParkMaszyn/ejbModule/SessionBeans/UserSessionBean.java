@@ -1,13 +1,10 @@
 package SessionBeans;
 
-import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
-import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
