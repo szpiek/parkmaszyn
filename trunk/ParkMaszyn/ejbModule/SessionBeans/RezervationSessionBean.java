@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityExistsException;
@@ -24,11 +26,10 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import Utilities.MailResender;
-
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
 import EntityBeans.Rezerwation;
+import Utilities.MailResender;
 
 /**
  * Session Bean implementation class RezervationSessionBean
@@ -73,7 +74,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		r.setEmploee(em.find(Emploee.class, eId));
 		try
 		{
+			UserTransaction ut = sc.getUserTransaction();
+			ut.begin();
 			em.merge(r);
+			ut.commit();
 		}
 		catch(EntityExistsException ex)
 		{
@@ -183,7 +187,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		try
 		{
 			Rezerwation r = em.find(Rezerwation.class, rId);
+			UserTransaction ut = sc.getUserTransaction();
+			ut.begin();
 			em.remove(r);
+			ut.commit();
 		}
 		catch(IllegalStateException ex)
 		{
@@ -193,6 +200,24 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		catch(IllegalArgumentException ex)
 		{
 			System.out.println(ex.getMessage());
+			return false;
+		} catch (NotSupportedException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (SystemException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (SecurityException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (RollbackException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (HeuristicMixedException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} catch (HeuristicRollbackException e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -226,12 +251,16 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public boolean accept(int rId) {
 		Rezerwation r = em.find(Rezerwation.class, rId);
 		r.setAccepted(1);
 		try
 		{
+			UserTransaction ut = sc.getUserTransaction();
+			ut.begin();
 			em.merge(r);
+			ut.commit();
 		}
 		catch(EntityExistsException ex)
 		{
@@ -255,6 +284,7 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean acceptRequest(int rId, String login, String password,
 			String ip) {
 		Rezerwation r = em.find(Rezerwation.class, rId);
@@ -272,7 +302,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 		r.setAccepted(1);
 		try
 		{
+			UserTransaction ut = sc.getUserTransaction();
+			ut.begin();
 			em.merge(r);
+			ut.commit();
 		}
 		catch(EntityExistsException ex)
 		{
