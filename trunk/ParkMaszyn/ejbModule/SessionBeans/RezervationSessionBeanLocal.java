@@ -10,5 +10,6 @@ public interface RezervationSessionBeanLocal {
 	public boolean remove(int rId);
 	public List<Rezerwation> getMyRezervations(int userID, int page);
 	public boolean persist(Rezerwation r, int eId);
+	public boolean edit(Rezerwation r, int eId);
 	public boolean request(Rezerwation r, int eId);
 }
