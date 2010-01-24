@@ -33,8 +33,8 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
 	@PersistenceContext EntityManager em;	
 	
 	private final String name = "REZ_TIMER";
-//	private final long interval = 1000 * 60 * 60 * 24;
-	private final long interval = 1000 * 30;
+	private final long interval = 1000 * 60 * 60 * 24;
+//	private final long interval = 1000 * 30;
 
     public RezervationTimerSessionBean() {}
     
