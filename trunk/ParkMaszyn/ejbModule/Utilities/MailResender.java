@@ -126,4 +126,14 @@ public class MailResender {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public static void sendReservationExpirationInfo(Rezerwation[] r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void sendReservationExpirationInfo(Rezerwation[] r, int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }
