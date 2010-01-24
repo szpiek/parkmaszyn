@@ -95,10 +95,22 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	}
 	
 	@Override
-	public boolean persist(Rezerwation r, int eId) {
+	public boolean persist(Rezerwation r, int eId)
+	{
+		return persist(r, eId, false);
+	}
+	
+	@Override
+	public boolean edit(Rezerwation r, int eId)
+	{
+		return persist(r, eId, true);
+	}
+	
+	private boolean persist(Rezerwation r, int eId, boolean modify) {
 		UserTransaction ut = sc.getUserTransaction();
 		Connection con = null;
-		r.setID(null);
+		if(!modify)
+			r.setID(null);
 		Emploee e2 = em.find(Emploee.class, eId);
 		r.setEmploee(e2);
 		try {
@@ -112,7 +124,7 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 					ids += ",";
 				ids += m.getID();
 			}
-			if(getRezerwationCheck(con, r, ids, false))
+			if(getRezerwationCheck(con, r, ids, modify))
 			{
 				System.out.println("Some machines are already booked");
 				con.close();
@@ -121,9 +133,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			con.close();
 			ut.begin();
 			r = em.merge(r);
+			em.flush();
 			con = dataSource.getConnection();
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-			if(getRezerwationCheck(con, r, ids, false))
+			if(getRezerwationCheck(con, r, ids, true))
 			{
 				System.out.println("Some machines are already booked (End)");
 				ut.rollback();
