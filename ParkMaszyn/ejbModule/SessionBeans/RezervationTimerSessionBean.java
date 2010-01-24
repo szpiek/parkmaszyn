@@ -47,7 +47,7 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
 			return false;
 		}
 		Calendar c = Calendar.getInstance();
-		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 4, 0);
+		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 0, 1);
 		timerService.createTimer(c.getTime(), interval, name);
 		System.out.println("Timer created!");
     	return true;
