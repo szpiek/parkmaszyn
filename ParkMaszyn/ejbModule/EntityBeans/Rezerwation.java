@@ -49,6 +49,13 @@ public class Rezerwation  implements Serializable{
 		isBook=book;
 	}
 	
+	public Rezerwation(Date created, Date returned, Boolean book, String need)
+	{
+		createDate=created;
+		returnDate=returned;
+		isBook=book;
+		this.need = need;
+	}
 	@ManyToOne(
 			fetch=FetchType.EAGER,
 	        cascade = {CascadeType.MERGE},
