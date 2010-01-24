@@ -32,7 +32,7 @@ public class Rezerwation  implements Serializable{
 	Set<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
-	Boolean accepted;
+	Integer accepted = 0;
 	String need;
 	
 	public void fixForFlex()
@@ -41,7 +41,7 @@ public class Rezerwation  implements Serializable{
 	}
 	
 	public Rezerwation(){}
-	
+	 
 	public Rezerwation(Date created, Date returned, Boolean book)
 	{
 		createDate=created;
@@ -63,7 +63,8 @@ public class Rezerwation  implements Serializable{
 	}
 	
 	@ManyToMany(
-	        fetch=FetchType.EAGER
+	        fetch=FetchType.EAGER,
+	        cascade = {CascadeType.MERGE}
 	    )
 	@JoinTable(
 			name="REZ_MACH",
@@ -113,12 +114,12 @@ public class Rezerwation  implements Serializable{
 		return this.need;
 	}
 	
-	public void setAccepted(Boolean acc)
+	public void setAccepted(Integer acc)
 	{
 		this.accepted = acc;
 	}
 	
-	public Boolean getAccepted()
+	public Integer getAccepted()
 	{
 		return accepted;
 	}
