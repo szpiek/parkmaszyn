@@ -22,12 +22,13 @@ public class FlexToJavaConverter {
             machine = new Machine();
             if(!(array.get(i) instanceof Machine) )
             {
-            aso = new ASObject();
-
-            aso = (ASObject) array.get(i);
-            aso.setType("EntityBeans.Machine");
+	            aso = new ASObject();
+	
+	            aso = (ASObject) array.get(i);
+	            aso.setType("EntityBeans.Machine");
             machine = (Machine) ast.convert(aso, Machine.class);
-            } machine=(Machine) array.get(i);
+            } 
+            machine=(Machine) array.get(i);
             machineArray.add(machine);
         }
         return machineArray;
