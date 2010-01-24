@@ -12,6 +12,6 @@ public interface RezervationSessionBeanLocal {
 	public boolean persist(Rezerwation r, int eId);
 	public boolean edit(Rezerwation r, int eId);
 	public boolean request(Rezerwation r, int eId);
-	public boolean accept(int rId);
-	public boolean acceptRequest(int rId, String login, String password, String ip); 
+	public boolean accept(int rId, boolean accepted);
+	public boolean acceptRequest(int rId, String login, String password, String ip, boolean accepted); 
 }

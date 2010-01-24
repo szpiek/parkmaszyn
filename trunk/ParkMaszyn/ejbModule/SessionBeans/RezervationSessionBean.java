@@ -255,15 +255,17 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public boolean accept(int rId) {
+	public boolean accept(int rId, boolean accepted) {
 		Rezerwation r = em.find(Rezerwation.class, rId);
 		r.setAccepted(1);
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
-			em.merge(r);
+			if(accepted)
+				em.merge(r);
+			else
+				em.remove(r);
 			ut.commit();
 		}
 		catch(EntityExistsException ex)
@@ -284,31 +286,40 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			System.out.println(e.getMessage());
 			return false;
 		}
-		return MailResender.sendRezervationAcceptInformation(r);
+		if(accepted)
+			return MailResender.sendRezervationAcceptInformation(r);
+		else
+			return MailResender.sendReservationRejectInformation(r);
 	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean acceptRequest(int rId, String login, String password,
-			String ip) {
+			String ip, boolean accepted) {
 		Rezerwation r = em.find(Rezerwation.class, rId);
-		HashSet<Machine> machines = new HashSet<Machine>();
-		for(Machine m : r.getMachine())
+		if(accepted)
 		{
-			m.setIP(ip);
-			m.setLogin(login);
-			m.setPassword(password);
-			machines.add(m);
-			break;
+			HashSet<Machine> machines = new HashSet<Machine>();
+			for(Machine m : r.getMachine())
+			{
+				m.setIP(ip);
+				m.setLogin(login);
+				m.setPassword(password);
+				machines.add(m);
+				break;
+			}
+			r.setMachine(machines);
+			r.setIsBook(true);
+			r.setAccepted(1);
 		}
-		r.setMachine(machines);
-		r.setIsBook(true);
-		r.setAccepted(1);
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
-			em.merge(r);
+			if(accepted)
+				em.merge(r);
+			else
+				em.remove(r);
 			ut.commit();
 		}
 		catch(EntityExistsException ex)
@@ -329,7 +340,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			System.out.println(e.getMessage());
 			return false;
 		}
-		return MailResender.sendRezervationAcceptInformation(r);
+		if(accepted)
+			return MailResender.sendRezervationAcceptInformation(r);
+		else
+			return MailResender.sendReservationRejectInformation(r);			
 	}
 
 }
