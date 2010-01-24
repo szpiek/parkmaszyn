@@ -8,6 +8,8 @@ import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import Utilities.MailResender;
+
 import DataRepository.EmploeeFinder;
 import DataRepository.EmploeeFinderCriteria;
 import DataRepository.MachineFinder;
@@ -53,6 +55,9 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
 
     public void test()
     {
+    	MailResender.sendToOneMessage("to jest single message", "test1mess", "olchawski@gmail.com");
+    	MailResender.sendToAllMessage("to jest multi message", "test2mess");
+    	
     	System.out.println("JEA");
     	
     	Rezerwation rez=new Rezerwation();
@@ -114,6 +119,7 @@ public class TestSessionBean implements TestSessionBeanRemote, TestSessionBeanLo
     	System.out.println("JEA5");
     }
 
+    
 	@Override
 	public void ejbTimeout(Timer timer) {
 		System.out.println("TIMER ecexuted !!! MSG: " + (String)timer.getInfo());
