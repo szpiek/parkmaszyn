@@ -3,14 +3,11 @@ package SessionBeans;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.sql.DataSource;
 
 import EntityBeans.Emploee;
 import Utilities.PasswordGenerator;
