@@ -1,6 +1,6 @@
 package SessionBeans;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.ejb.Remote;
 
@@ -16,6 +16,7 @@ public interface MachineSessionBeanRemote {
 	public void persistMachine(Machine mach);
 	public void removeMachine(Machine mach);
 	public void releaseMachine(Machine mach, Rezerwation res);
+	@SuppressWarnings("unchecked")
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList machs);
 	public ArrayList<Machine> getByCriteria(MachineFinderCriteria mfc);
 }
