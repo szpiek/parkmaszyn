@@ -25,11 +25,6 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 	@PersistenceContext
 	EntityManager em;	
 	
-	@Resource
-	SessionContext sc;
-
-	@Resource(mappedName="java:/mySQLDS") DataSource dataSource;
-	
 	public UserSessionBean() {}
     
     @SuppressWarnings("unchecked")
