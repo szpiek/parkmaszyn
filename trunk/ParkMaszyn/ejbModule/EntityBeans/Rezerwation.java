@@ -32,6 +32,7 @@ public class Rezerwation  implements Serializable{
 	Set<Machine> machine;
 	Emploee emploee;
 	Boolean isBook;
+	Boolean accepted;
 	String need;
 	
 	public void fixForFlex()
@@ -110,6 +111,16 @@ public class Rezerwation  implements Serializable{
 	public String getNeed()
 	{
 		return this.need;
+	}
+	
+	public void setAccepted(Boolean acc)
+	{
+		this.accepted = acc;
+	}
+	
+	public Boolean getAccepted()
+	{
+		return accepted;
 	}
 	
     @Override
