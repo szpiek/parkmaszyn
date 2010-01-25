@@ -18,7 +18,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
+@OnDelete(action=OnDeleteAction.CASCADE)
 @NamedQuery(name="getRezByUser", query="FROM Rezerwation r WHERE EMPLOYEE_FK=:userId")
 @Table(name="Rezerwation")
 public class Rezerwation  implements Serializable{
@@ -71,7 +75,7 @@ public class Rezerwation  implements Serializable{
 	
 	@ManyToMany(
 	        fetch=FetchType.EAGER,
-	        cascade = {CascadeType.MERGE}
+	        cascade = {CascadeType.ALL}
 	    )
 	@JoinTable(
 			name="REZ_MACH",
