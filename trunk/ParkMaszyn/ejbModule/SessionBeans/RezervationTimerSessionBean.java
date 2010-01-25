@@ -33,8 +33,8 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
 	@PersistenceContext EntityManager em;	
 	
 	private final String name = "REZ_TIMER";
-	private final long interval = 1000 * 60 * 60 * 24;
-//	private final long interval = 1000 * 30;
+//	private final long interval = 1000 * 60 * 60 * 24;
+	private final long interval = 1000 * 30;
 
     public RezervationTimerSessionBean() {}
     
@@ -92,10 +92,11 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
     @Timeout
     public void timeout(Timer timer)
     {
+    	Connection c = null;
     	try {
     		ArrayList<Integer> expIds = new ArrayList<Integer>();
     		ArrayList<Integer> expIds3 = new ArrayList<Integer>();
-			Connection c = dataSource.getConnection();
+    		c = dataSource.getConnection();
 			Calendar cal = Calendar.getInstance();
 			cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 			PreparedStatement ps = c.prepareStatement("SELECT ID FROM REZERWATION WHERE returnDate=?");
@@ -114,6 +115,13 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
 			{
 				expIds3.add(rs.getInt(1));
 			}
+			cal.add(Calendar.DAY_OF_MONTH, -4);
+			ps = c.prepareStatement("DELETE FROM rez_mach where rez_id in (SELECT ID FROM rezerwation where returnDate=?)");
+			ps.setDate(1, new Date(cal.getTimeInMillis()));
+			ps.execute();
+			ps = c.prepareStatement("DELETE FROM rezerwation  WHERE returnDate=?");
+			ps.setDate(1, new Date(cal.getTimeInMillis()));
+			ps.execute();
 			c.close();
 			if(expIds.size()>0)
 			{
@@ -140,7 +148,19 @@ public class RezervationTimerSessionBean implements RezervationTimerSessionBeanR
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+			try {
+				c.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+			try {
+				c.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	    }
     	
     	System.out.println("Timer "+timer.getInfo());
     }
