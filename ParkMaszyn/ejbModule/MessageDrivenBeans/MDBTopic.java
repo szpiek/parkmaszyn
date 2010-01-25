@@ -8,6 +8,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import EntityBeans.Machine;
+
 /**
  * Message-Driven Bean implementation class for: MDBTopic
  *
@@ -34,6 +36,21 @@ public class MDBTopic implements MessageListener {
     	System.out.println("Dostalem wiadomosc tekstowa od klienta webowego");
     	try 
     	{	
+    		if(message_ instanceof TextMessage) 
+    		{
+    			TextMessage tmsg = (TextMessage)message_;
+                System.out.println("MESSAGE BEAN: Text Message received: " + tmsg.getText());
+                System.out.println("MESSAGE BEAN: Message header: " + tmsg.getIntProperty("prop1"));
+            } 
+    		else 
+    		{
+    			ObjectMessage omsg = (ObjectMessage)message_;
+    			Machine m = (Machine) omsg.getObject();
+    			System.out.println("Mchine" + m);
+                System.out.println ("MESSAGE BEAN: Object Message received " + message_.getClass().getName());
+                System.out.println("MESSAGE BEAN: Object Message header: " + omsg.getIntProperty("prop1"));
+            }
+    		
 	    	ConnectionFactory connectionFactory = null;
 	        Connection connection = null;
 	        Session session = null;
