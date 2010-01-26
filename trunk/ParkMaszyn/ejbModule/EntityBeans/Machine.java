@@ -52,7 +52,7 @@ public class Machine  implements Serializable{
 	
 	@ManyToOne(
 			fetch=FetchType.EAGER,
-	        cascade = {CascadeType.MERGE},
+	        cascade = {CascadeType.ALL},
 	        targetEntity = Processor.class
 	    )
 	@JoinColumn(name="CPU_FK")
@@ -67,7 +67,7 @@ public class Machine  implements Serializable{
 
 	@ManyToOne(
 			fetch=FetchType.EAGER,
-	        cascade = {CascadeType.MERGE},
+	        cascade = {CascadeType.ALL},
 	        targetEntity = OS.class
 	    )
 	@JoinColumn(name="OS_FK")
@@ -86,6 +86,16 @@ public class Machine  implements Serializable{
 		password=pass;
 		memory=mem;
 		isBook=book;
+	}
+	public Machine(OS o,Processor p,String ipNumber ,String log, String pass, Integer mem, Integer nbits, boolean book)
+	{
+		IP=ipNumber;
+		login=log;
+		password=pass;
+		memory=mem;
+		isBook=book;
+		this.os = o;
+		this.processor = p;
 	}
 	
 		public String getIP() {
