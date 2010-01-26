@@ -53,7 +53,7 @@ public class Emploee implements Serializable{
         	department=depart;
         	phone=telephone;
         	manager=boss;
-        	password=pass;
+        	this.setPassword(pass);
         	admin=adm;
         }
         
