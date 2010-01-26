@@ -75,7 +75,7 @@ public class Rezerwation  implements Serializable{
 	
 	@ManyToMany(
 	        fetch=FetchType.EAGER,
-	        cascade = {CascadeType.ALL}
+	        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
 	    )
 	@JoinTable(
 			name="REZ_MACH",
