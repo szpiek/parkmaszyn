@@ -33,43 +33,53 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     {
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- START");
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
-    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Yoda","123",false));
-    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Yoda","123",false));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Yoda","123",false));
-    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Yoda","123",false));
-    	emploees.add(new Emploee("Romuad","Wit","wit@gmail.com","Development",567,"Yoda","123",false));
-    	emploees.add(new Emploee("El¿bieta","Richter-W¹s","was@gmail.com","Development",890,"Yoda","123",false));
-    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Yoda","123",false));
+    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski","123",false));
+    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown","123",false));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123",false));
+    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski","123",false));
+    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski","123",false));
     	for(Emploee emp:emploees) em.persist(emp);
     	
     	Processor proc=new Processor("AMD64X2",64,"x86-64",1700,2);
+    	Processor proc4=new Processor("Core 2 Duo",64,"x86-64",2400,2);
+    	Processor proc2=new Processor("Power6",64,"PPC",1400,2);
+    	Processor proc3=new Processor("RISC",64,"SPARC",1200,2);
     	OS os=new OS("Windows 7","6.1","12",64);
-    	em.persist(proc);
-    	em.persist(os);
+    	OS os2=new OS("RHEL","5","12",64);
+    	OS os4=new OS("SLES","11","12",64);
+    	OS os3=new OS("Solaris","10","0",64);
+//    	em.persist(proc);
+//    	em.persist(proc2);
+//    	em.persist(proc3);
+//    	em.persist(proc4);
+//    	em.persist(os);
+//    	em.persist(os2);
+//    	em.persist(os3);
+//    	em.persist(os4);
     	ArrayList<Machine> machines=new ArrayList<Machine>();
-    	machines.add(new Machine("Windows 7","x86-64","Core 2 Duo 2.8 Ghz","192.168.140.1","brzeczyszczykiewicz1","maslo",2048,64,true));
-    	machines.add(new Machine("Fedora Core 12","x86-64","Core 2 Quad 3.6 Ghz","192.168.140.2","brzeczyszczykiewicz2","maslo",2048,64,true));
-    	machines.add(new Machine("Slackware","x86","Core Duo 1,7 Ghz","192.168.140.3","brzeczyszczykiewicz3","maslo",1024,32,true));
-    	machines.add(new Machine("Windows XP SP3","x86","Pentium 4 1,5 Ghz","192.168.140.4","brzeczyszczykiewicz4","maslo",512,32,true));
-    	machines.add(new Machine("Red Hat Linux","x86-64","Pentium 133 Mhz","192.168.140.5","brzeczyszczykiewicz5","maslo",256,64,true));
-    	machines.add(new Machine("Mac OS Tiger","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32,true));
+    	machines.add(new Machine(os,proc4, "192.168.140.1","brzeczyszczykiewicz1","maslo",2048,64,true));
+    	machines.add(new Machine(os2, proc4,"192.168.140.2","brzeczyszczykiewicz2","maslo",2048,64,true));
+    	machines.add(new Machine(os, proc,"192.168.140.3","brzeczyszczykiewicz3","maslo",1024,32,true));
+    	machines.add(new Machine(os2, proc,"192.168.140.4","brzeczyszczykiewicz4","maslo",512,32,true));
+    	machines.add(new Machine(os3, proc3,"192.168.140.5","brzeczyszczykiewicz5","maslo",256,64,true));
+    	machines.add(new Machine(os2, proc2,"192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32,true));
     	//ghost machines:
-    	machines.add(new Machine("Mac OS Panther","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz7","maslo",4096,32,false));
-    	machines.add(new Machine("Mac OS Coconut","x86","AMD K6 1.8 Ghz","192.168.140.6","brzeczyszczykiewicz8","maslo",4096,32,false));
+    	machines.add(new Machine(os4, proc2,"192.168.140.6","brzeczyszczykiewicz7","maslo",4096,32,false));
+    	machines.add(new Machine(os4, proc4,"192.168.140.6","brzeczyszczykiewicz8","maslo",4096,32,false));
     	
     	for(Machine mach:machines){
-    		mach.setProcessor(proc);
-    		mach.setOs(os);
     		em.persist(mach);
     	}
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();
-    	
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()), false));
+    	long day = 1000*60*60*24;
+    	Rezerwation r = new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+2*day), true);
+    	r.setAccepted(1);
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+day), true));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+2*day), new Date(Calendar.getInstance().getTimeInMillis()+3*day), false));
+    	rezerwations.add(r);
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+3*day), new Date(Calendar.getInstance().getTimeInMillis()+5*day), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+day), new Date(Calendar.getInstance().getTimeInMillis()+10*day), false));
     	
     	for(Rezerwation rez:rezerwations) em.persist(rez);
     	
