@@ -52,7 +52,7 @@ public class Machine  implements Serializable{
 	
 	@ManyToOne(
 			fetch=FetchType.EAGER,
-	        cascade = {CascadeType.ALL},
+	        cascade = {CascadeType.PERSIST},
 	        targetEntity = Processor.class
 	    )
 	@JoinColumn(name="CPU_FK")
@@ -67,7 +67,7 @@ public class Machine  implements Serializable{
 
 	@ManyToOne(
 			fetch=FetchType.EAGER,
-	        cascade = {CascadeType.ALL},
+	        cascade = {CascadeType.PERSIST},
 	        targetEntity = OS.class
 	    )
 	@JoinColumn(name="OS_FK")

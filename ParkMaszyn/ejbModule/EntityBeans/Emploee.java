@@ -1,6 +1,7 @@
 package EntityBeans;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import Utilities.FlexToJavaConverter;
+import Utilities.PasswordGenerator;
 
 @Entity
 @NamedQuery(name="getAllEmployes", query="FROM Emploee e WHERE admin=0")
@@ -92,7 +94,11 @@ public class Emploee implements Serializable{
         }
         public void setPassword(String pass) 
         {
-        	this.password = pass;
+        	try {
+				this.password = PasswordGenerator.generatePassword(pass);
+			} catch (NoSuchAlgorithmException e) {
+				this.password = pass;
+			}
         }
         
         public String getPassword()
