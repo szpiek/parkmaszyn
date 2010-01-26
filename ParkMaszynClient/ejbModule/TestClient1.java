@@ -1,7 +1,10 @@
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,6 +19,8 @@ import EntityBeans.Rezerwation;
 import SessionBeans.DataProviderBeanRemote;
 import SessionBeans.FindTestSessionBeanRemote;
 import SessionBeans.MachineSessionBeanRemote;
+import SessionBeans.RezervationSessionBeanRemote;
+import SessionBeans.RezervationTimerSessionBeanRemote;
 import SessionBeans.TestSessionBeanRemote;
 
 
@@ -31,6 +36,26 @@ public class TestClient1 {
 	{
 		DataProviderBeanRemote dpbr=(DataProviderBeanRemote) context.lookup("DataProviderBean/remote");
 		dpbr.addSimpleData();	
+	}
+	
+	public static void acceptTest(Context context) throws NamingException
+	{
+		RezervationSessionBeanRemote dpbr=(RezervationSessionBeanRemote) context.lookup("RezervationSessionBean/remote");
+		System.out.println(dpbr.acceptRequest(19, "pies", "pies2", "pies3", true));
+	}
+	
+	public static void timerTest(Context context) throws NamingException
+	{
+		RezervationTimerSessionBeanRemote dpbr=(RezervationTimerSessionBeanRemote) context.lookup("RezervationTimerSessionBean/remote");
+		dpbr.startTimer();
+		dpbr.isTimerSet();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dpbr.cancelTimer();
 	}
 	
 	public static void findEmploeeTest(Context context) throws NamingException
@@ -55,6 +80,27 @@ public class TestClient1 {
 		for(Machine emp:emploees)
 			System.out.println(emp);
 	}
+	
+	public static void rezerwationTest(Context context) throws NamingException
+	{
+		RezervationSessionBeanRemote dpbr=(RezervationSessionBeanRemote) context.lookup("RezervationSessionBean/remote");
+		MachineSessionBeanRemote m=(MachineSessionBeanRemote) context.lookup("MachineSessionBean/remote");
+		ArrayList<Machine> all = m.getAllMachines();
+		Date d1 = new Date(1264259793500L);
+		Date d2 = new Date(1264289793500L);
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+		System.out.println(sd.format(d1));
+		System.out.println(sd.format(d2));
+		Rezerwation r = new Rezerwation(d1,d2 , true);
+		Set<Machine> s = new HashSet<Machine>();
+		for(Machine ma : all)
+		{
+			if(ma.getID()==11)
+				s.add(ma);
+		}
+		r.setMachine(s);
+		dpbr.persist(r, 8);
+	}	
 	
 	public static void mailTest(Context context)throws NamingException
 	{
@@ -162,11 +208,17 @@ public class TestClient1 {
 		properties.put("java.naming.provider.url","localhost:1099");
 		try {
 			Context context = new InitialContext(properties);
+//			timerTest(context);
+//			rezerwationTest(context);
+//			clearTest(context);
+			addTest(context);
+//			findMachineTest(context);
+//			MachineTest(context);
 			//clearTest(context);
 			//addTest(context);
 			//findMachineTest(context);
 			//MachineTest(context);
-			mailTest(context);
+//			mailTest(context);
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
