@@ -33,11 +33,11 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     {
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- START");
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
-    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski","123",false));
-    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown","123",false));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123",false));
-    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski","123",false));
-    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski","123",false));
+    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski","123456",false));
+    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown","123456",false));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123456",false));
+    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski","123456",false));
+    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski","123456",false));
     	for(Emploee emp:emploees) em.persist(emp);
     	
     	Processor proc=new Processor("AMD64X2",64,"x86-64",1700,2);
@@ -78,7 +78,7 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+day), true));
     	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+2*day), new Date(Calendar.getInstance().getTimeInMillis()+3*day), false));
     	rezerwations.add(r);
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+3*day), new Date(Calendar.getInstance().getTimeInMillis()+5*day), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+3*day), new Date(Calendar.getInstance().getTimeInMillis()+5*day), true));
     	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+day), new Date(Calendar.getInstance().getTimeInMillis()+10*day), false));
     	
     	for(Rezerwation rez:rezerwations) em.persist(rez);
@@ -107,12 +107,12 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     public void clearDatabase()
     {
     	System.out.println("-==DATABASE CLEARING==- START");
+    	for(Rezerwation r:RezerwationFinder.getAllRezerwations(em))
+    		DataOperations.removeRezervation(em, r);
     	for(Machine m:MachineFinder.getAllMachines(em))
     		DataOperations.removeMachine(em, m);
     	for(Emploee e:EmploeeFinder.getAllEmploees(em))
     		DataOperations.removeEmploee(em, e);
-    	for(Rezerwation r:RezerwationFinder.getAllRezerwations(em))
-    		DataOperations.removeRezervation(em, r);
     	System.out.println("-==DATABASE CLEARING==- STOP");
     }
     
