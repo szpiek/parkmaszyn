@@ -35,8 +35,9 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     public void addSimpleData()
     {
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- START");
-    	String pass = null;        	try {
-			pass = PasswordGenerator.generatePassword(pass);
+    	String pass = null;        	
+    	try {
+			pass = PasswordGenerator.generatePassword("123456");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		};
