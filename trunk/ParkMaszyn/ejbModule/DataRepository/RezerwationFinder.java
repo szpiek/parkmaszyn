@@ -27,9 +27,12 @@ public class RezerwationFinder {
 	{
 		ArrayList<Rezerwation> ret=new ArrayList<Rezerwation>();
 		ArrayList<Rezerwation> allMachines=getAllRezerwations(em);
+		System.out.println("Machine: " + m.getLogin());
+		System.out.println("getRezerwationsByMachine " + allMachines.size());
 		for(Rezerwation r:allMachines)
 			if(r.getMachine().contains(m))
 				ret.add(r);
+		System.out.println("Return " + ret.size());
 		return ret;
 	}
 	
