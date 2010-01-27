@@ -137,7 +137,7 @@ public class Rezerwation  implements Serializable{
 	
     @Override
     public String toString() {
-    return "Rezerwation ID="+ID;
+    	return "Rezerwation ID="+ID+" returnDate="+returnDate+" startDate="+createDate;
     }
     
     public boolean equals(Object o) {
