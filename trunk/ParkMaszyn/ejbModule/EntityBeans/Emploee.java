@@ -55,7 +55,7 @@ public class Emploee implements Serializable{
         	department=depart;
         	phone=telephone;
         	manager=boss;
-        	this.setPassword(pass);
+        	password = pass;
         	admin=adm;
         }
         
