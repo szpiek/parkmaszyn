@@ -33,6 +33,8 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 			System.out.println(e.getMessage());
 		}
     	Query checkUser = em.createQuery("from Emploee e where email=? and password=?");
+    	System.out.println(login);
+    	System.out.println(password);
     	checkUser.setParameter(1, login);
     	checkUser.setParameter(2, password);
     	List <Emploee> l = checkUser.getResultList();
