@@ -63,6 +63,9 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	{
 		try
 		{
+			mach.setID(null);
+			mach.getOs().setID(null);
+			mach.getProcessor().setId(null);
 			mach=em.merge(mach);
 		}
 		catch(EntityExistsException ex)

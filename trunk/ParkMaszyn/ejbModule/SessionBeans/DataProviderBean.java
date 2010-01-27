@@ -35,7 +35,7 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
     	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski","123456",false));
     	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown","123456",false));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123456",false));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123456",true));
     	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski","123456",false));
     	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski","123456",false));
     	for(Emploee emp:emploees) em.persist(emp);
@@ -86,7 +86,7 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(0), emploees.get(1));
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(1), emploees.get(0));
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(2), emploees.get(4));
-    	DataOperations.addRezerwationEmploee(em, rezerwations.get(3), emploees.get(0));
+    	DataOperations.addRezerwationEmploee(em, rezerwations.get(3), emploees.get(2));
     	DataOperations.addRezerwationEmploee(em, rezerwations.get(4), emploees.get(0));
     	
     	DataOperations.addRezerwationMachine(em, rezerwations.get(0), machines.get(1));
