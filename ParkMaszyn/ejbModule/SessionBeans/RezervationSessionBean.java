@@ -110,6 +110,7 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	@Override
 	public boolean edit(Rezerwation r, int eId)
 	{
+		System.out.println(r);
 		return persist(r, eId, true);
 	}
 	
