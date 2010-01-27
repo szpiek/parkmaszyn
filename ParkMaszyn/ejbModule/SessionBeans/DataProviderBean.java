@@ -65,7 +65,7 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	machines.add(new Machine(os2, proc2,"192.168.140.6","brzeczyszczykiewicz6","maslo",4096,32,true));
     	//ghost machines:
     	machines.add(new Machine(os4, proc2,"192.168.140.6","brzeczyszczykiewicz7","maslo",4096,32,false));
-    	machines.add(new Machine(os4, proc4,"192.168.140.6","brzeczyszczykiewicz8","maslo",4096,32,false));
+    	machines.add(new Machine(os4, proc4,null,null,null,4096,32,false));
     	
     	for(Machine mach:machines){
     		em.persist(mach);
