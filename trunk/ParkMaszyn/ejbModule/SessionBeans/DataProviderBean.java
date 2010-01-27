@@ -2,11 +2,14 @@ package SessionBeans;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import Utilities.PasswordGenerator;
 import DataRepository.*;
 import EntityBeans.*;
 
@@ -32,12 +35,17 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     public void addSimpleData()
     {
     	System.out.println("-==DATABASE INSERT SIMPLE DATA==- START");
+    	String pass = null;        	try {
+			pass = PasswordGenerator.generatePassword(pass);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		};
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
-    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski","123456",false));
-    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown","123456",false));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski","123456",true));
-    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski","123456",false));
-    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski","123456",false));
+    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski",pass,false));
+    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown",pass,false));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski",pass,true));
+    	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski",pass,false));
+    	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski",pass,false));
     	for(Emploee emp:emploees) em.persist(emp);
     	
     	Processor proc=new Processor("AMD64X2",64,"x86-64",1700,2);

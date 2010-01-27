@@ -70,10 +70,10 @@ public class UserSessionBean implements UserSessionBeanRemote, UserSessionBeanLo
 	public boolean persist(Emploee e) {
 		try
 		{
-			String pass = PasswordGenerator.genPass();
+			String pass = PasswordGenerator.generatePassword(PasswordGenerator.genPass());
 			pass = "123456";
 			e.setID(null);
-			e.setPassword(PasswordGenerator.generatePassword(pass));
+			e.setPassword(pass);
 			em.persist(e);
 		}
 		catch(EntityExistsException ex)
