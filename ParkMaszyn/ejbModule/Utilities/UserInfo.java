@@ -41,5 +41,10 @@ public class UserInfo implements Serializable{
 		this.admin = admin;
 	}
 	
+	public String toString()
+	{
+		return "id="+id+" admin="+admin;
+	}
+	
 
 }
