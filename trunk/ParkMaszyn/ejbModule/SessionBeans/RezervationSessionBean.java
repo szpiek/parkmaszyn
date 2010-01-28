@@ -66,17 +66,17 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	{
 		Machine[] m = r.getMachine().toArray(new Machine[1]);
 		m[0].setID(null);
-		Machine machine = em.merge(m[0]);	
-		Set<Machine> hashSet = new HashSet<Machine>();
-		hashSet.add(machine);
-		r.setMachine(hashSet);	
-		r.setID(null);
-		r.setIsBook(false);
-		r.setEmploee(em.find(Emploee.class, eId));
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
+			Machine machine = em.merge(m[0]);	
+			Set<Machine> hashSet = new HashSet<Machine>();
+			hashSet.add(machine);
+			r.setMachine(hashSet);	
+			r.setID(null);
+			r.setIsBook(false);
+			r.setEmploee(em.find(Emploee.class, eId));
 			em.merge(r);
 			ut.commit();
 		}
