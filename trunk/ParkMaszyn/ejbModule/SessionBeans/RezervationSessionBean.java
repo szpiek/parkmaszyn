@@ -263,12 +263,13 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 
 	@Override
 	public boolean accept(int rId, boolean accepted) {
-		Rezerwation r = em.find(Rezerwation.class, rId);
-		r.setAccepted(1);
+		Rezerwation r = null;
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
+			r = em.find(Rezerwation.class, rId);
+			r.setAccepted(1);
 			if(accepted)
 				em.merge(r);
 			else
@@ -303,26 +304,27 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean acceptRequest(int rId, String login, String password,
 			String ip, boolean accepted) {
-		Rezerwation r = em.find(Rezerwation.class, rId);
-		if(accepted)
-		{
-			HashSet<Machine> machines = new HashSet<Machine>();
-			for(Machine m : r.getMachine())
-			{
-				m.setIP(ip);
-				m.setLogin(login);
-				m.setPassword(password);
-				machines.add(m);
-				break;
-			}
-			r.setMachine(machines);
-			r.setIsBook(true);
-			r.setAccepted(1);
-		}
+		Rezerwation r = null;
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
+			r = em.find(Rezerwation.class, rId);
+			if(accepted)
+			{
+				HashSet<Machine> machines = new HashSet<Machine>();
+				for(Machine m : r.getMachine())
+				{
+					m.setIP(ip);
+					m.setLogin(login);
+					m.setPassword(password);
+					machines.add(m);
+					break;
+				}
+				r.setMachine(machines);
+				r.setIsBook(true);
+				r.setAccepted(1);
+			}
 			if(accepted)
 				em.merge(r);
 			else
