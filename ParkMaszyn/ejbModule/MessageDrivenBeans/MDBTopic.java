@@ -2,6 +2,7 @@ package MessageDrivenBeans;
 
 import java.util.Properties;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.*;
 import javax.naming.Context;
@@ -9,6 +10,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import EntityBeans.Machine;
+import EntityBeans.Rezerwation;
+import SessionBeans.RezervationSessionBeanLocal;
 
 /**
  * Message-Driven Bean implementation class for: MDBTopic
@@ -22,6 +25,9 @@ import EntityBeans.Machine;
 		)  
 public class MDBTopic implements MessageListener {
 
+	@EJB 
+	RezervationSessionBeanLocal resSessionBean;
+	
     /**
      * Default constructor. 
      */
@@ -32,24 +38,9 @@ public class MDBTopic implements MessageListener {
      * @see MessageListener#onMessage(Message)
      */
     public void onMessage(Message message_) {
-
-    	System.out.println("Dostalem wiadomosc tekstowa od klienta webowego");
-    	try 
-    	{	
-    		if(message_ instanceof TextMessage) 
-    		{
-    			TextMessage tmsg = (TextMessage)message_;
-                System.out.println("MESSAGE BEAN: Text Message received: " + tmsg.getText());
-                System.out.println("MESSAGE BEAN: Message header: " + tmsg.getIntProperty("prop1"));
-            } 
-    		else 
-    		{
-    			ObjectMessage omsg = (ObjectMessage)message_;
-    			Machine m = (Machine) omsg.getObject();
-    			System.out.println("Mchine" + m);
-                System.out.println ("MESSAGE BEAN: Object Message received " + message_.getClass().getName());
-                System.out.println("MESSAGE BEAN: Object Message header: " + omsg.getIntProperty("prop1"));
-            }
+    	try {	
+			ObjectMessage omsg = (ObjectMessage)message_;
+			Rezerwation res = (Rezerwation) omsg.getObject();
     		
 	    	ConnectionFactory connectionFactory = null;
 	        Connection connection = null;
@@ -57,24 +48,23 @@ public class MDBTopic implements MessageListener {
 	        Destination destination = null;
 	        MessageProducer messageProducer = null;
 	        TextMessage message = null;
-	        System.out.println("Getting ConnectionFactory for JNDI");
 	        connectionFactory = getJmsConnectionFactory();
 			connection = connectionFactory.createConnection();
 	        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 	        destination = getJmsDestination();
 	        messageProducer = session.createProducer(destination);
-	        message = session.createTextMessage("Wyslalem wiadomosc!!!");
-	        message.setIntProperty("user", 1);
+	        if(omsg.getStringProperty("action").equals("zaakceptowana"))
+	        	message = session.createTextMessage("Rezerwacja na okres\n\n" + res.getCreateDate() + "  -  " + res.getReturnDate() + "\n\nzostala zaakceptowana");
+	        else
+	        	message = session.createTextMessage("Rezerwacja na okres\n\n" + res.getCreateDate() + "  -  " + res.getReturnDate() + "\n\nzostala odrzucona");
+	        message.setIntProperty("user", res.getEmploee().getID());
 	        messageProducer.send(message);
-	        System.out.println("Message sent");
 	        messageProducer.close();
 	        session.close();
 	        connection.close();
     	} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
     }
 
 	private Destination getJmsDestination() {
@@ -103,8 +93,7 @@ public class MDBTopic implements MessageListener {
         return jmsConnectionFactory;
 	}
 	
-	private Properties getContextProp()
-	{
+	private Properties getContextProp(){
 		Properties properties = new Properties();
 		properties.put("java.naming.factory.initial","org.jnp.interfaces.NamingContextFactory");
 		properties.put("java.naming.factory.url.pkgs","=org.jboss.naming:org.jnp.interfaces");
