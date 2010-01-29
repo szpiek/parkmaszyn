@@ -13,6 +13,7 @@ import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
 import DataRepository.RezerwationFinder;
 import EntityBeans.Machine;
+import EntityBeans.OS;
 import EntityBeans.Rezerwation;
 import Utilities.FlexToJavaConverter;
 
@@ -61,6 +62,8 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	
 	public boolean persistMachine(Machine mach)
 	{
+		System.out.println("persistMachine MACHINE ID: " + mach.getID());
+		System.out.println("persistMachine MACHINE - OS NAME: " + mach.getOs().getName());
 		try
 		{
 			mach.setID(null);
@@ -116,12 +119,13 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	@SuppressWarnings("unchecked")
 	public ArrayList< ArrayList<Date[]> > getMachinesTimeUsage(ArrayList machs)
 	{
-		ArrayList<ArrayList<Date[]> > ret=new ArrayList<ArrayList<Date[]> >();
-		ArrayList<Machine> test = FlexToJavaConverter.convertMchineArray(machs);
+		ArrayList<ArrayList<Date[]> > ret = new ArrayList<ArrayList<Date[]> >();
+		ArrayList<Machine> test = (ArrayList<Machine>)machs;
+		
 		for(Machine m:test)
 		{
 			m=em.merge(m);
-			ArrayList<Rezerwation> rez = RezerwationFinder.getRezerwationsByMachine(em, m) ;
+			ArrayList<Rezerwation> rez = RezerwationFinder.getRezerwationsByMachine(em, m);
 			if(rez!=null && rez.size()>0)
 			{
 				ret.add(new ArrayList<Date[]>());
