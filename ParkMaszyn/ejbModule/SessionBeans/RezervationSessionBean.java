@@ -348,11 +348,10 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			System.out.println(e.getMessage());
 			return false;
 		}
-		return true;
-//		if(accepted)
-//			return MailResender.sendRezervationAcceptInformation(r);
-//		else
-//			return MailResender.sendReservationRejectInformation(r);			
+		if(accepted)
+			return MailResender.sendRezervationAcceptInformation(r);
+		else
+			return MailResender.sendReservationRejectInformation(r);			
 	}
 
 }
