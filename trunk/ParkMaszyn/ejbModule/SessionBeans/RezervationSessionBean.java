@@ -191,37 +191,44 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	public boolean remove(int rId) {
 		try
 		{
+			System.out.println("ID rezerwacji do usuniecia: " + rId);
 			Rezerwation r = em.find(Rezerwation.class, rId);
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
 			em.remove(r);
 			ut.commit();
 		}
-		catch(IllegalStateException ex)
-		{
+		catch(IllegalStateException ex){
+			ex.printStackTrace();
 			System.out.println(ex.getMessage());
 			return false;
 		}
-		catch(IllegalArgumentException ex)
-		{
+		catch(IllegalArgumentException ex){
+			ex.printStackTrace();
 			System.out.println(ex.getMessage());
 			return false;
 		} catch (NotSupportedException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		} catch (SystemException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		} catch (SecurityException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		} catch (RollbackException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		} catch (HeuristicMixedException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		} catch (HeuristicRollbackException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -341,10 +348,11 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			System.out.println(e.getMessage());
 			return false;
 		}
-		if(accepted)
-			return MailResender.sendRezervationAcceptInformation(r);
-		else
-			return MailResender.sendReservationRejectInformation(r);			
+		return true;
+//		if(accepted)
+//			return MailResender.sendRezervationAcceptInformation(r);
+//		else
+//			return MailResender.sendReservationRejectInformation(r);			
 	}
 
 }
