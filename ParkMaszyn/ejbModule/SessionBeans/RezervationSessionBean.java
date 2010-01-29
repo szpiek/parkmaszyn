@@ -191,10 +191,9 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	public boolean remove(int rId) {
 		try
 		{
-			System.out.println("ID rezerwacji do usuniecia: " + rId);
-			Rezerwation r = em.find(Rezerwation.class, rId);
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
+			Rezerwation r = em.find(Rezerwation.class, rId);
 			em.remove(r);
 			ut.commit();
 		}
