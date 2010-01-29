@@ -16,7 +16,7 @@
 		<properties>
 			<jms>
 				<destination-type>Topic</destination-type>
-				<message-type>javax.jms.TextMessage</message-type>
+				<message-type>javax.jms.ObjectMessage</message-type>
 				<connection-factory>ConnectionFactory</connection-factory>
 				<destination-jndi-name>topic/testTopic</destination-jndi-name>
 				<delivery-mode>NON_PERSISTENT</delivery-mode>
