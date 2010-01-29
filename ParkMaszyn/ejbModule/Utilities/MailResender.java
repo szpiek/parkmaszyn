@@ -98,7 +98,6 @@ public class MailResender {
                         protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                             String login = "parkmaszynejb";
                             String password = "parkmaszyn";
-                            System.out.println(login + " " + password);
                             javax.mail.PasswordAuthentication pa = new javax.mail.PasswordAuthentication(login, password);
 
                             return pa;
