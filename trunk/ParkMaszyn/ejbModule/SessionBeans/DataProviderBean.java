@@ -42,9 +42,9 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
 			e.printStackTrace();
 		};
     	ArrayList<Emploee> emploees=new ArrayList<Emploee>();
-    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski",pass,false));
-    	emploees.add(new Emploee("Micha³","Swatowski","szpieg@gmail.com","Development",456,"Uknown",pass,false));
-    	emploees.add(new Emploee("Piotr","Wiêcek","reset@gmail.com","Development",789,"Micha³ Swatowski",pass,true));
+    	emploees.add(new Emploee("Piotr","Olchawski","olchawski@gmail.com","Development",123,"Micha³ Swatowski",pass,true));
+    	emploees.add(new Emploee("Micha³","Swatowski","szpiek@gmail.com","Development",456,"Uknown",pass,true));
+    	emploees.add(new Emploee("Piotr","Wiêcek","reset1986@gmail.com","Development",789,"Micha³ Swatowski",pass,true));
     	emploees.add(new Emploee("Jan","Rokita","rokita@gmail.com","Development",234,"Jan Kowalski",pass,false));
     	emploees.add(new Emploee("Stephen","King","s.king@gmail.com","Main Plot Coding",159,"Jan Kowalski",pass,false));
     	for(Emploee emp:emploees) em.persist(emp);
@@ -82,13 +82,13 @@ public class DataProviderBean implements DataProviderBeanRemote, DataProviderBea
     	
     	ArrayList<Rezerwation> rezerwations=new ArrayList<Rezerwation>();
     	long day = 1000*60*60*24;
-    	Rezerwation r = new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+2*day), true);
+    	Rezerwation r = new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+2*day), true, "Testy jednostkowe");
     	r.setAccepted(1);
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+day), true));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+2*day), new Date(Calendar.getInstance().getTimeInMillis()+3*day), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()), new Date(Calendar.getInstance().getTimeInMillis()+day), true, "Testy integracyjne"));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+2*day), new Date(Calendar.getInstance().getTimeInMillis()+3*day), false, "Test Oracle`a 11g"));
     	rezerwations.add(r);
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+3*day), new Date(Calendar.getInstance().getTimeInMillis()+5*day), true));
-    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+day), new Date(Calendar.getInstance().getTimeInMillis()+10*day), false));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+3*day), new Date(Calendar.getInstance().getTimeInMillis()+5*day), true, "Hudson"));
+    	rezerwations.add(new Rezerwation(new Date(Calendar.getInstance().getTimeInMillis()+day), new Date(Calendar.getInstance().getTimeInMillis()+10*day), false, "Test nowego JDK 1.6"));
     	
     	for(Rezerwation rez:rezerwations) em.persist(rez);
     	
