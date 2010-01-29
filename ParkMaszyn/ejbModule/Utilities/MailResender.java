@@ -24,19 +24,15 @@ import SessionBeans.UserSessionBeanLocal;
 
 public class MailResender {
 
-	
 	public static boolean sendRezervationAcceptInformation(Rezerwation rez) {
+		System.out.println("GOT "+rez.getMachine().size()+" machines in rezerwation");
 		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a zaakceptowana.";
 		message+="\nOto dane dostêpu do poszczególnych maszyn:";
 		String subject="Potwierdzenie akceptacji zamówienia maszyn";
 		for(Machine mach:rez.getMachine())
 		{
-			message+="\n\nProcesor: "+mach.getProcessor().getName()+" Bitów: "+mach.getProcessor().getBits()+ " Mhz: "+mach.getProcessor().getClock();
-			message+="\nPamiêæ: "+mach.getMemory();
-			message+="\nSystem: "+mach.getOs().getName()+" Bitów:"+mach.getOs().getBits()+" Version: "+mach.getOs().getVersion()+" Patch:"+mach.getOs().getPatch();
-			message+="\nLogin: "+mach.getLogin();
-			message+="\nHas³o: "+mach.getPassword();
-			message+="\nIP: "+mach.getIP();
+			message+=getMachineMessage(mach);
+			message+=getMachineAcceptMessage(mach);
 		}
 		return sendToOneMessage(message,subject,rez.getEmploee().getEmail());
 	}
@@ -120,19 +116,61 @@ public class MailResender {
             return false;
         }
     }
+	
+	private static String getMachineAcceptMessage(Machine mach)
+	{
+		String message="";
+		message+="\nLogin: "+mach.getLogin();
+		message+="\nHas³o: "+mach.getPassword();
+		message+="\nIP: "+mach.getIP();
+		return message;
+	}
 
-	public static boolean sendReservationRejectInformation(Rezerwation r) {
-		// TODO Auto-generated method stub
-		return false;
+	private static String getMachineMessage(Machine mach)
+	{
+		String message="";
+		message+="\n\nProcesor: "+mach.getProcessor().getName()+" Bitów: "+mach.getProcessor().getBits()+ " Mhz: "+mach.getProcessor().getClock();
+		message+="\nPamiêæ: "+mach.getMemory();
+		message+="\nSystem: "+mach.getOs().getName()+" Bitów:"+mach.getOs().getBits()+" Version: "+mach.getOs().getVersion()+" Patch:"+mach.getOs().getPatch();
+		return message;
+	}
+	
+	public static boolean sendReservationRejectInformation(Rezerwation rez) {
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a odrzucona.";
+		message+="\nOto dane maszyn na które z³o¿ona by³a rezerwacja:";
+		String subject="Potwierdzenie odrzucenia zamówienia maszyn";
+		for(Machine mach:rez.getMachine())
+			message+=getMachineMessage(mach);
+		return sendToOneMessage(message,subject,rez.getEmploee().getEmail());
 	}
 
 	public static void sendReservationExpirationInfo(Rezerwation[] r) {
-		// TODO Auto-generated method stub
-		
+		for(Rezerwation rez: r)
+		{
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" w³aœnie wygas³a.";
+		message+="\nOto dane maszyny na które dokonana by³a rezerwacja:";
+		String subject="Powiadomienie o wygaœniêciu rezerwacji na maszyny";
+		for(Machine mach:rez.getMachine())
+		{
+			message+=getMachineMessage(mach);
+			message+=getMachineAcceptMessage(mach);
+		}
+		sendToOneMessage(message,subject,rez.getEmploee().getEmail());
+		}
 	}
 
 	public static void sendReservationExpirationInfo(Rezerwation[] r, int i) {
-		// TODO Auto-generated method stub
-		
+		for(Rezerwation rez: r)
+		{
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" wygaœnie za "+i+" dni.";
+		message+="\nOto dane maszyny na które dokonana jest rezerwacja:";
+		String subject="Powiadomienie o zbli¿aj¹cym siê zakoñczeniu czasu trwania rezerwacji na maszyny";
+		for(Machine mach:rez.getMachine())
+		{
+			message+=getMachineMessage(mach);
+			message+=getMachineAcceptMessage(mach);
+		}
+		sendToOneMessage(message,subject,rez.getEmploee().getEmail());
+		}
 	}
 }
