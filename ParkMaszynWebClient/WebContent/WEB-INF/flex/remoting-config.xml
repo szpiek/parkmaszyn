@@ -45,6 +45,13 @@
     	</properties>
     </destination>
     
+    <destination id="RezervationTimerSessionBean">
+    	<properties>
+    		<factory>ejb3</factory>
+    		<source>RezervationTimerSessionBean/remote</source>
+    	</properties>
+    </destination>
+    
 	<destination id="SessionHandler">
 		<properties>
 			<source>com.eBusiness.SessionHandler</source>
