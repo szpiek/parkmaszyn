@@ -263,12 +263,14 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 
 	@Override
 	public boolean accept(int rId, boolean accepted) {
+		System.out.println("ACCEPT##############:");
 		Rezerwation r = null;
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
 			r = em.find(Rezerwation.class, rId);
+			System.out.println("SIZE##############:"+r.getMachine().size());
 			r.setAccepted(1);
 			if(accepted)
 				em.merge(r);
@@ -304,12 +306,14 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean acceptRequest(int rId, String login, String password,
 			String ip, boolean accepted) {
+		System.out.println("ACCEPT2##############:");
 		Rezerwation r = null;
 		try
 		{
 			UserTransaction ut = sc.getUserTransaction();
 			ut.begin();
 			r = em.find(Rezerwation.class, rId);
+			System.out.println("SIZE##############:"+r.getMachine().size());
 			if(accepted)
 			{
 				HashSet<Machine> machines = new HashSet<Machine>();
@@ -319,7 +323,6 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 					m.setLogin(login);
 					m.setPassword(password);
 					machines.add(m);
-					break;
 				}
 				r.setMachine(machines);
 				r.setIsBook(true);
