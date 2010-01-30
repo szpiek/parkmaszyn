@@ -40,7 +40,7 @@ public class MDBTopic implements MessageListener {
     	try {	
 			ObjectMessage omsg = (ObjectMessage)message_;
 			Rezerwation res = (Rezerwation) omsg.getObject();
-    		
+    		System.out.println("onMessage receive message from administrator");
 	    	ConnectionFactory connectionFactory = null;
 	        Connection connection = null;
 	        Session session = null;
@@ -58,6 +58,7 @@ public class MDBTopic implements MessageListener {
 	        	message = session.createTextMessage("Rezerwacja na okres\n\n" + res.getCreateDate() + "  -  " + res.getReturnDate() + "\n\nzostala odrzucona");
 	        message.setIntProperty("user", res.getEmploee().getID());
 	        messageProducer.send(message);
+	        System.out.println("Wiadomosc do uzytkownika: " + res.getEmploee().getID() + "  zostala wyslana");
 	        messageProducer.close();
 	        session.close();
 	        connection.close();
