@@ -60,6 +60,28 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		return MachineFinder.getMachinesByStrictCriteria(em, mfc);
 	}
 	
+	
+	public boolean updateMachine(Machine mach)
+	{
+		try
+		{
+			mach=em.merge(mach);
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return false;
+	}
+	
 	public boolean persistMachine(Machine mach)
 	{
 		System.out.println("persistMachine MACHINE ID: " + mach.getID());
@@ -69,7 +91,7 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 			mach.setID(null);
 			mach.getOs().setID(null);
 			mach.getProcessor().setId(null);
-			mach=em.merge(mach);
+			em.persist(mach);
 		}
 		catch(EntityExistsException ex)
 		{

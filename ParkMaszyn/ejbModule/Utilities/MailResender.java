@@ -163,9 +163,9 @@ public class MailResender {
 	public static void sendReservationExpirationInfo(Rezerwation[] r) {
 		for(Rezerwation rez: r)
 		{
-		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" w³aœnie wygas³a.";
-		message+="\nOto dane maszyny na które dokonana by³a rezerwacja:";
-		String subject="Powiadomienie o wygaœniêciu rezerwacji na maszyny";
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" wygaœnie jutro.";
+		message+="\nOto dane maszyny na które dokonana jest rezerwacja:";
+		String subject="Powiadomienie o koñcz¹cej siê rezerwacji na maszyny";
 		for(Machine mach:rez.getMachine())
 		{
 			message+=getMachineMessage(mach);
@@ -180,7 +180,7 @@ public class MailResender {
 		{
 		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" wygaœnie za "+i+" dni.";
 		message+="\nOto dane maszyny na które dokonana jest rezerwacja:";
-		String subject="Powiadomienie o zbli¿aj¹cym siê zakoñczeniu czasu trwania rezerwacji na maszyny";
+		String subject="Powiadomienie o koñcz¹cej siê rezerwacji na maszyny";
 		for(Machine mach:rez.getMachine())
 		{
 			message+=getMachineMessage(mach);
