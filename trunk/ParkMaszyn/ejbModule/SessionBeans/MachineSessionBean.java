@@ -63,6 +63,8 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	
 	public boolean updateMachine(Machine mach)
 	{
+		System.out.println("updateMachine MACHINE ID: " + mach.getID());
+		System.out.println("persistMachine MACHINE - OS NAME: " + mach.getOs().getName());
 		try
 		{
 			mach=em.merge(mach);
@@ -79,7 +81,7 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 			System.out.println(e.getMessage());
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean persistMachine(Machine mach)
@@ -111,7 +113,7 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 			System.out.println(e.getMessage());
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public void removeMachine(Machine mach)

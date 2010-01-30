@@ -14,6 +14,7 @@ public interface MachineSessionBeanRemote {
 	public ArrayList<Machine> getBookableMachines();
 	public ArrayList<Machine> getUnbookableMachines();
 	public boolean persistMachine(Machine mach);
+	public boolean updateMachine(Machine mach);
 	public void removeMachine(Machine mach);
 	public void releaseMachine(Machine mach, Rezerwation res);
 	@SuppressWarnings("unchecked")
