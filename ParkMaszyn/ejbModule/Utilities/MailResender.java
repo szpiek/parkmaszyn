@@ -24,6 +24,44 @@ import SessionBeans.UserSessionBeanLocal;
 
 public class MailResender {
 
+	static String from = "parkmaszynejb@gmail.com";
+	static Session session = null;
+	static String host = "smtp.gmail.com";
+    static int SMTPport = 465;
+    static String login = "parkmaszynejb";
+    static String password = "parkmaszyn";
+    
+	static{
+		Properties props = System.getProperties();
+        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", SMTPport);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+		session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                        
+                        javax.mail.PasswordAuthentication pa = new javax.mail.PasswordAuthentication(login, password);
+
+                        return pa;
+                    }
+                });
+		/*Properties props = new Properties();
+		InitialContext ictx;
+		try {
+			ictx = new InitialContext(props);
+		
+		session = (Session) ictx.lookup("java:/Mail");
+		
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	}
+	
 	public static boolean sendRezervationAcceptInformation(Rezerwation rez) {
 		System.out.println("GOT "+rez.getMachine().size()+" machines in rezerwation");
 		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a zaakceptowana.";
@@ -72,49 +110,27 @@ public class MailResender {
 	}
 	
 	private static boolean sendMessage(String message,String title,InternetAddress[] recipient) {
-        Properties props = System.getProperties();
-        String host = "smtp.gmail.com";
-        int SMTPport = 465;
-        String from = "parkmaszynejb@gmail.com";
         
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-        // Setup mail server
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", SMTPport);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
 
+        //Transport transport;
         try {
+        	//transport = session.getTransport("smtps");
             // Get session
-            Session session = Session.getDefaultInstance(props,
-                    new javax.mail.Authenticator() {
-
-                        @Override
-                        protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                            String login = "parkmaszynejb";
-                            String password = "parkmaszyn";
-                            javax.mail.PasswordAuthentication pa = new javax.mail.PasswordAuthentication(login, password);
-
-                            return pa;
-                        }
-                    });
-
             MimeMessage mess = new MimeMessage(session);
             mess.setFrom(new InternetAddress(from));
             mess.addRecipients(Message.RecipientType.TO,recipient);
             mess.setSubject(title);
-            MimeBodyPart messageBodyPart =  new MimeBodyPart();
-            messageBodyPart.setText(message);
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-            mess.setContent(multipart);
+            mess.setText(message);
+            //transport.connect(login, password);
+    		//transport.sendMessage(mess, mess.getAllRecipients());
             Transport.send(mess);
+            //transport.close();
             return true;
         } catch (Exception ex) {
         	ex.printStackTrace();
             return false;
         }
+			
     }
 	
 	private static String getMachineAcceptMessage(Machine mach)
