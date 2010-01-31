@@ -6,9 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity(name="Processor")
+@NamedQuery(name="getAllProcessors", query="FROM Processor p")
 @Table(name="Processor")
 public class Processor implements Serializable{
 	/**
@@ -75,5 +77,10 @@ public class Processor implements Serializable{
 	}
 	public void setArchitecture(String architecture) {
 		this.architecture = architecture;
+	}
+	
+	@Override
+	public String toString() {
+		return Id+" "+name+" "+cores+" "+bits+" "+clock;
 	}
 }
