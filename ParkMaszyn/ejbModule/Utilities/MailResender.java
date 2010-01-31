@@ -49,22 +49,10 @@ public class MailResender {
                         return pa;
                     }
                 });
-		/*Properties props = new Properties();
-		InitialContext ictx;
-		try {
-			ictx = new InitialContext(props);
-		
-		session = (Session) ictx.lookup("java:/Mail");
-		
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	}
 	
 	public static boolean sendRezervationAcceptInformation(Rezerwation rez) {
-		System.out.println("GOT "+rez.getMachine().size()+" machines in rezerwation");
-		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a zaakceptowana.";
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" na czas "+rez.getCreateDate()+" - "+rez.getReturnDate()+" zosta³a zaakceptowana.";
 		message+="\nOto dane dostêpu do poszczególnych maszyn:";
 		String subject="Potwierdzenie akceptacji zamówienia maszyn";
 		for(Machine mach:rez.getMachine())
@@ -110,21 +98,13 @@ public class MailResender {
 	}
 	
 	private static boolean sendMessage(String message,String title,InternetAddress[] recipient) {
-        
-
-        //Transport transport;
         try {
-        	//transport = session.getTransport("smtps");
-            // Get session
             MimeMessage mess = new MimeMessage(session);
             mess.setFrom(new InternetAddress(from));
             mess.addRecipients(Message.RecipientType.TO,recipient);
             mess.setSubject(title);
             mess.setText(message);
-            //transport.connect(login, password);
-    		//transport.sendMessage(mess, mess.getAllRecipients());
             Transport.send(mess);
-            //transport.close();
             return true;
         } catch (Exception ex) {
         	ex.printStackTrace();
@@ -147,12 +127,12 @@ public class MailResender {
 		String message="";
 		message+="\n\nProcesor: "+mach.getProcessor().getName()+" Bitów: "+mach.getProcessor().getBits()+ " Mhz: "+mach.getProcessor().getClock();
 		message+="\nPamiêæ: "+mach.getMemory();
-		message+="\nSystem: "+mach.getOs().getName()+" Bitów:"+mach.getOs().getBits()+" Version: "+mach.getOs().getVersion()+" Patch:"+mach.getOs().getPatch();
+		message+="\nSystem: "+mach.getOs().getName()+" Bitów:"+mach.getOs().getBits()+" Wersja: "+mach.getOs().getVersion()+" Poprawka:"+mach.getOs().getPatch();
 		return message;
 	}
 	
 	public static boolean sendReservationRejectInformation(Rezerwation rez) {
-		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" zosta³a odrzucona.";
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" na czas "+rez.getCreateDate()+" - "+rez.getReturnDate()+" zosta³a odrzucona.";
 		message+="\nOto dane maszyn na które z³o¿ona by³a rezerwacja:";
 		String subject="Potwierdzenie odrzucenia zamówienia maszyn";
 		for(Machine mach:rez.getMachine())
@@ -163,8 +143,8 @@ public class MailResender {
 	public static void sendReservationExpirationInfo(Rezerwation[] r) {
 		for(Rezerwation rez: r)
 		{
-		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" wygaœnie jutro.";
-		message+="\nOto dane maszyny na które dokonana jest rezerwacja:";
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" na czas "+rez.getCreateDate()+" - "+rez.getReturnDate()+" wygaœnie jutro.";
+		message+="\nOto dane maszyn na które dokonana jest rezerwacja:";
 		String subject="Powiadomienie o koñcz¹cej siê rezerwacji na maszyny";
 		for(Machine mach:rez.getMachine())
 		{
@@ -178,8 +158,8 @@ public class MailResender {
 	public static void sendReservationExpirationInfo(Rezerwation[] r, int i) {
 		for(Rezerwation rez: r)
 		{
-		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" wygaœnie za "+i+" dni.";
-		message+="\nOto dane maszyny na które dokonana jest rezerwacja:";
+		String message="Twoja rezerwacja dla celu: "+rez.getNeed()+" na czas "+rez.getCreateDate()+" - "+rez.getReturnDate()+" wygaœnie za "+i+" dni.";
+		message+="\nOto dane maszyn na które dokonana jest rezerwacja:";
 		String subject="Powiadomienie o koñcz¹cej siê rezerwacji na maszyny";
 		for(Machine mach:rez.getMachine())
 		{
