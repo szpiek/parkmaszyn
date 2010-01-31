@@ -11,9 +11,12 @@ import javax.persistence.PersistenceContext;
 import DataRepository.DataOperations;
 import DataRepository.MachineFinder;
 import DataRepository.MachineFinderCriteria;
+import DataRepository.ProcessorFinder;
+import DataRepository.ProcessorFinderCriteria;
 import DataRepository.RezerwationFinder;
 import EntityBeans.Machine;
 import EntityBeans.OS;
+import EntityBeans.Processor;
 import EntityBeans.Rezerwation;
 import Utilities.FlexToJavaConverter;
 
@@ -41,6 +44,12 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		return MachineFinder.getAllMachines(em);
 	}
 
+	@SuppressWarnings("unchecked")
+	private ArrayList<Processor> getAllProcessors()
+	{
+		return (ArrayList<Processor>) em.createNamedQuery("getAllProcessors").getResultList();
+	}
+	
 	@Override
 	public ArrayList<Machine> getBookableMachines() {
 		MachineFinderCriteria mfc=new MachineFinderCriteria();
@@ -67,6 +76,8 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 		System.out.println("persistMachine MACHINE - OS NAME: " + mach.getOs().getName());
 		try
 		{
+			mach.setOs(em.merge(mach.getOs()));
+			mach.setProcessor(em.merge(mach.getProcessor()));
 			mach=em.merge(mach);
 		}
 		catch(IllegalArgumentException e)
@@ -145,10 +156,20 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 	{
 		ArrayList<ArrayList<Date[]> > ret = new ArrayList<ArrayList<Date[]> >();
 		ArrayList<Machine> test = (ArrayList<Machine>)machs;
-		
+		System.out.println("MAMY PROCESORÓW BEFORE: "+getAllProcessors());
 		for(Machine m:test)
 		{
+			Processor p=m.getProcessor();
+			System.out.println("MAMY PROCESORÓW INSIDE BEFORE PROC MERGE: "+getAllProcessors());
+			Processor proc=ProcessorFinder.getProcessorByExample(em,p);
+			if(proc!=null) p=proc;
+			m.setProcessor(p);
+			System.out.println("MAMY PROCESORÓW INSIDE BEFORE PROC MERGE: "+getAllProcessors());
+			
+			System.out.println("MAMY PROCESORÓW INSIDE BEFORE MACH MERGE: "+getAllProcessors());
 			m=em.merge(m);
+			System.out.println("MAMY PROCESORÓW INSIDE AFTER  MACH MERGE: "+getAllProcessors());
+			
 			ArrayList<Rezerwation> rez = RezerwationFinder.getRezerwationsByMachine(em, m);
 			if(rez!=null && rez.size()>0)
 			{
@@ -157,6 +178,8 @@ public class MachineSessionBean implements MachineSessionBeanRemote, MachineSess
 					ret.get(ret.size()-1).add(new Date[]{ rezerwation.getCreateDate(),rezerwation.getReturnDate()});
 			}
 		}
+		System.out.println("MAMY PROCESORÓW AFTER: "+getAllProcessors());
+		
 		return ret;
 	}
 	

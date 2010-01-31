@@ -26,8 +26,10 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import DataRepository.ProcessorFinder;
 import EntityBeans.Emploee;
 import EntityBeans.Machine;
+import EntityBeans.Processor;
 import EntityBeans.Rezerwation;
 import Utilities.MailResender;
 
@@ -143,6 +145,16 @@ public class RezervationSessionBean implements RezervationSessionBeanRemote, Rez
 			}
 			con.close();
 			ut.begin();
+			Set<Machine> fixedSet=new HashSet<Machine>();
+			for(Machine m:r.getMachine())
+			{
+				Processor p=m.getProcessor();
+				Processor found=ProcessorFinder.getProcessorByExample(em, p);
+				if(found!=null) p=found;
+				m.setProcessor(p);
+				fixedSet.add(m);
+			}
+			r.setMachine(fixedSet);
 			r = em.merge(r);
 			em.flush();
 			con = dataSource.getConnection();
